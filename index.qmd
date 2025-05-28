@@ -51,7 +51,7 @@ library(sf)
 There are basically two types of spatial data: vector and raster
 
 ## Vector data 
-Can be points, lines or polygons. Useful for representing things like survey locations, rivers, and boundaries. 
+Can be points, lines or polygons. Vectors are useful for representing things like survey locations, rivers, and boundaries. 
 
 ```{r}
 #| code-fold: true
@@ -98,7 +98,7 @@ elev |>
 
 ## Making and inspecting a raster
 
-Lets start by creating our own raster. We can create rasters from scratch or load them from a file using the `terra` function `rast()`. We can create a simple raster by specifying the x and y limits for the raster and the resolution (how big each cell is).
+Lets start by creating our own raster. We will be doing all manipulation of rasters with the `terra` package. To create rasters from scratch or load them from a file we use the function `rast()`. We can create a simple raster by specifying the x and y limits for the raster and the resolution (how big each cell is).
 
 
 ```{r}
@@ -178,7 +178,7 @@ pt_sf <- pt |>
 pt_sf
 ```
 
-Inspecting the simple feature point, `pt_sf`, that we created, we see that there is only 1 feature; our point. There is also a bounding box, which is the same concept as the x and y limits we had for our raster. Like the raster, we also have coordinate reference system (CRS), that is currently not defined.
+Inspecting the simple feature collection, `pt_sf`, that we created, we see that there is only 1 feature; our point. There is also a bounding box, which is the same concept as the x and y limits we had for our raster. Like the raster, we also have coordinate reference system (CRS), that is currently not defined.
 
 Now our point is a simple feature collection, we can add some information to it. We will add a column called "temperature" and give our point a value of 25.
 
@@ -192,12 +192,121 @@ Now our point has a "field" attached to it with temperature data. The fields are
 
 # Real world data
 
-Most of the time, we won't be making our own data from scratch, but reading in data that we have downloaded or been provided with. In this workshop, you are going to be doing a case study of Koalas in south-east Queensland (SEQ). One of the first pieces of spatial data we normally need are the boundaries of the area we are working in. We will use spatial data of the local government areas in Queensland downloaded from the Queensland government [website](https://qldspatial.information.qld.gov.au/catalogue/custom/detail.page?fid={3F3DBD69-647B-4833-B0A5-CC43D5E70699}) to define our SEQ boundary. 
+## Vectors
+
+### Loading and plotting
+
+Most of the time, we won't be making our own data from scratch, but reading in data that we have downloaded or been provided with. In this workshop, you are going to be doing a case study of Koalas in south-east Queensland (SEQ). One of the first pieces of spatial data we normally need are the boundaries of the area we are working in. We will use spatial data of the local government areas (LGAs) in Queensland downloaded from the Queensland government [website](https://qldspatial.information.qld.gov.au/catalogue/custom/detail.page?fid={3F3DBD69-647B-4833-B0A5-CC43D5E70699}) to define our SEQ boundary. 
 
 We use `st_read()` to read the data which is in the `data` folder you should have downloaded with the code from Github. The file is a Geopackage, which is widely used for storing geospatial data, and is similar (but better!) than shapefile. The `st_read()` command can read data in many different spatial formats: run `st_drivers()` to see a complete list of formats.
 
 ```{r}
+#| warning: false
+
 lgas <- st_read("data/Local_Goverment_Areas.gpkg")
 ```
 
-`sf` gives us some information about the data we have read: we can see it is MULTIPOLYGON and has 78 features and 6 fields. 
+`sf` gives us some information about the data we have read: we can see it is MULTIPOLYGON and has 78 features and 6 fields, i.e. 78 rows of geometry and 6 columns of data. Lets have a look at the first few rows (features):
+
+```{r}
+head(lgas)
+```
+
+Now we can see that the 6 fields contain information about each LGA, including various name formats and the areas. The final column called "Shape" contains the spatial information: the coordinates for each point that makes up the polygons. This column is most commonly labelled "geometry".
+
+The fields in our `sf` data are just like columns in a data frame. So if we want all the values in one column, we can just select that column in the same way as a data frame:
+
+```{r}
+lgas$lga
+```
+
+Remember that the CRS of our data is GDA94. What does this mean? We can get some more information using `st_crs()`:
+
+```{r}
+st_crs(lgas)
+```
+
+The "wkt", well-known text, gives a lot of detail, but we can see that this is a CRS that is specific to Australia. 
+
+Let's plot the data to see what we have:
+
+```{r}
+plot(lgas)
+```
+
+Looks like Queensland! We got one map for each field (column). If we want a map of just one field we can select only the field we want:
+
+```{r}
+plot(lgas[, "lga"], axes = TRUE)
+```
+
+We added axes using the `axes = TRUE` argument. 
+
+### Subsetting
+
+We have LGAs for the whole of Queensland, but we just want a polygon of south-east Queensland (SEQ). How do we get that?
+
+First, we make a vector containing the names of all the LGAs in SEQ:
+
+```{r}
+seq_lga_names <- c(
+  "Brisbane City",
+  "Moreton Bay City",
+  "Logan City",
+  "Ipswich City",
+  "Redland City",
+  "Scenic Rim Regional",
+  "Somerset Regional",
+  "Lockyer Valley Regional",
+  "Gold Coast City",
+  "Sunshine Coast Regional",
+  "Toowoomba Regional",
+  "Noosa Shire"
+)
+```
+
+Now we can subset our LGAs spatial data for just these LGAs:
+
+```{r}
+lgas_seq <- lgas |> 
+  filter(lga %in% seq_lga_names)
+
+plot(lgas_seq[, "lga"])
+```
+
+Great! We've got only the LGAs in SEQ. But at the moment we have many polygons that make up SEQ:
+
+```{r}
+head(lgas_seq)
+```
+
+How do we get just one polygon that is the boundary of the area? We use `st_union()`:
+
+```{r}
+seq_boundary <- st_union(lgas_seq)
+
+plot(seq_boundary)
+```
+
+This merges all our polygons into one polygon. Note that we lose all the fields when we do this:
+
+```{r}
+head(seq_boundary)
+```
+
+### Saving
+
+We will need the SEQ polygon later, so lets save it using `st_write()`:
+
+```{r}
+st_write(seq_boundary, "data/seq_polygon.gpkg")
+```
+
+You can save in many different formats (see `st_drivers()`). You can change the file format just by changing the file extension, e.g. use "seq_polygon.shp" if you want a shapefile.
+
+TO DO: Projection before saving. Might be easiest to have the original lgas object in 4326 and then project since that's easier to understand and more common. 
+
+```{r}
+
+```
+
