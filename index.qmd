@@ -51,6 +51,7 @@ library(sf)
 There are basically two types of spatial data: vector and raster
 
 ## Vector data 
+
 Can be points, lines or polygons. Vectors are useful for representing things like survey locations, rivers, and boundaries. 
 
 ```{r}
@@ -73,6 +74,7 @@ plot(lux, "NAME_2", col = terrain.colors(12), las = 1, axes = F, main = "Polygon
 ```
 
 ## Raster data 
+
 Raster data is a grid of rectangles, normally called cells. Each cell has a value, making rasters useful for storing continuous data, such as temperature and elevation.
 
 Here is an example of raster data, where each cell in the raster represents elevation.
@@ -86,7 +88,7 @@ elev <- system.file("ex/elev.tif", package = "terra") |>
   rast() |>
   aggregate(fact = 2)
 
-plot(elev, las = 1, main = "Elevation map")
+plot(elev, las = 1, main = "Elevation map", col = terrain.colors(100))
 
 elev |>
   as.polygons(aggregate = FALSE, na.rm = FALSE) |>
@@ -203,10 +205,10 @@ We use `st_read()` to read the data which is in the `data` folder you should hav
 ```{r}
 #| warning: false
 
-lgas <- st_read("data/Local_Goverment_Areas.gpkg")
+lgas <- st_read("data/Local_Government_Areas.gpkg") 
 ```
 
-`sf` gives us some information about the data we have read: we can see it is MULTIPOLYGON and has 78 features and 6 fields, i.e. 78 rows of geometry and 6 columns of data. Lets have a look at the first few rows (features):
+`sf` gives us some information about the data we have read: we can see it is MULTIPOLYGON and has 78 features and 6 fields, i.e. 78 rows of geometry and 6 columns of data, and its CRS is WGS 84. We will come back to the coordinate reference system (CRS) later, so for now, lets have a look at the first few rows (features):
 
 ```{r}
 head(lgas)
@@ -219,14 +221,6 @@ The fields in our `sf` data are just like columns in a data frame. So if we want
 ```{r}
 lgas$lga
 ```
-
-Remember that the CRS of our data is GDA94. What does this mean? We can get some more information using `st_crs()`:
-
-```{r}
-st_crs(lgas)
-```
-
-The "wkt", well-known text, gives a lot of detail, but we can see that this is a CRS that is specific to Australia. 
 
 Let's plot the data to see what we have:
 
@@ -242,9 +236,9 @@ plot(lgas[, "lga"], axes = TRUE)
 
 We added axes using the `axes = TRUE` argument. 
 
-### Subsetting
+### Subsetting and merging
 
-We have LGAs for the whole of Queensland, but we just want a polygon of south-east Queensland (SEQ). How do we get that?
+Our data has local government areas (LGAs) for the whole of Queensland, but we just want a polygon of south-east Queensland (SEQ). How do we get that?
 
 First, we make a vector containing the names of all the LGAs in SEQ:
 
@@ -269,7 +263,7 @@ Now we can subset our LGAs spatial data for just these LGAs:
 
 ```{r}
 lgas_seq <- lgas |> 
-  filter(lga %in% seq_lga_names)
+  filter(lga %in% seq_lga_names) #select only the rows of data with LGA names that we have listed
 
 plot(lgas_seq[, "lga"])
 ```
@@ -294,19 +288,302 @@ This merges all our polygons into one polygon. Note that we lose all the fields 
 head(seq_boundary)
 ```
 
+## Rasters
+
+### Loading and plotting
+
+We now want to get some climate data for our south-east Queensland study area that we will use in a later session to do species modelling. Climate data is normally stored in raster format, so we will be using the `terra` package to manipulate the data. Example climate data is already in the `data` folder, and you will learn about how to create these data in the following session. For now, let's load one of the climate rasters and have a look at it:
+
+```{r}
+climate1 <- rast("data/Current_climate_QLD/bioclim_01.tif")
+
+climate1
+```
+
+It is a raster with 0.05 degree resolution: we know it is in degrees because it is unprojected, in the EPSG 4326 coordinate reference system. Let's plot the data:
+
+```{r}
+plot(climate1)
+```
+
+We can see that the data covers the whole of Australia. What type of data do you think this is?
+
+### Cropping and masking
+
+The raster data we have at the moment is for a much larger area than just SEQ. Let's plot our raster and SEQ polygon together to see:
+
+```{r}
+seq_vect <- vect(seq_boundary) #we need to convert our sf polygon into a SpatVector, which is the vector format that the terra package uses
+
+plot(climate1) 
+lines(seq_vect) #adds the SEQ polygon as lines on top of the raster
+```
+
+To get only SEQ data, we need to crop and mask the raster data using our SEQ polygon. 
+
+Cropping means that we keep only the data inside the **extent** of the vector we are using. Mask means that all the data outside the vector is set to NA or some other value we specify. Lets have a look how this works.
+
+First lets have a look at the extent of the SEQ polygon. We can get the extent of a raster or vector using `ext()`. We need to convert this into a `SpatVector` object for plotting using `vect()`. We only need to do this for plotting; when we crop, we can just use the SEQ polygon as the input.
+
+
+```{r}
+#| fig-cap: "Cropping means we remove everything outside the extent (blue box) of our polygon. Masking sets all values outside our polygon to NA."
+
+seq_vect_extent <- ext(seq_vect) |> 
+  vect()
+
+plot(climate1)
+lines(seq_vect)
+lines(seq_vect_extent, col = "blue")
+```
+
+So when we crop, we get only the area within the blue box.
+
+We crop using the `crop()` function, using the raster we want to crop as the first argument and the vector we are cropping as the second.
+
+```{r}
+#crop
+climate1_cropped <- crop(climate1, seq_vect)
+
+#plot
+plot(climate1_cropped)
+lines(seq_vect)
+```
+
+Now we have cropped our raster, we can mask it so that we only have values for the area within the SEQ boundary. We do this using `mask`:
+
+```{r}
+#mask
+climate_seq <- mask(climate1_cropped, seq_vect)
+
+#plot
+plot(climate_seq)
+lines(seq_vect)
+```
+
+Now we only see raster values for cells that are within the SEQ boundary. But remember that the areas that are white, still have values, they are just `NA` values. We can confirm this by plotting the `NA` cells in grey (or any other colour):
+
+```{r}
+plot(climate_seq, colNA = "grey")
+lines(seq_vect)
+```
+
+Often we want to `crop` and `mask` one after the other, and you can do this in one command using `crop(climate1_projected, seq_vect, mask = TRUE)`. 
+
+For reference, here is a figure comparing what `crop`, `mask` and `crop(mask = TRUE)` do:
+
+```{r}
+#| code-fold: true
+
+par(mfrow = c(2,2))
+
+plot(climate1, main = "Original raster")
+lines(seq_vect)
+
+plot(climate1_cropped, main = "Cropped")
+lines(seq_vect)
+
+climate1 |>
+  mask(seq_vect) |>
+  plot(main = "Masked")
+lines(seq_vect)
+
+plot(crop(climate1, seq_vect, mask = TRUE), main = "Cropped and masked")
+lines(seq_vect)
+
+par(mfrow = c(1,1))
+```
+
+Why not just mask rather than crop and mask? As we see in the figure above, this would mean we have a lot of area we are not interested in and even though most of those cells would be `NA` they take up space in our raster, so it is not efficient.
+
+### Raster values
+
+We might want to examine some summaries of the raster values. We can get a histogram of all the values in a raster just using the `hist()` function:
+
+```{r}
+hist(climate_seq)
+```
+
+There is a tail of low values, which are mostly from the south-east of Australia (Tasmania is chilly!). What is the mean value for the whole of Australia?
+
+```{r}
+global(climate_seq, "mean", na.rm = TRUE)
+```
+
+We can also get a statistical summary of the raster values just by using the `summary()` function:
+
+```{r}
+summary(climate_seq)
+```
+
+### Raster math
+
+The great thing about rasters are you can do maths with them! For example, doing `climate1 + 1` just adds one to each raster value, and doing `climate1*2` multiplies each raster value by two.
+
+As an example, lets convert our temperature data into Fahrenheit for our confused colleagues from the U.S. The conversion from Celsius to Fahrenheit is: Fahrenheit = (Celsius * 1.8) + 32.
+
+```{r}
+#do the conversion
+climate_seq_fahrenheit <- (climate_seq*1.8) + 32
+
+#plot our new raster
+plot(climate_seq_fahrenheit)
+```
+
+### Coordinate reference systems and projection
+
+Remember that the CRS of our data is WGS 84. What does this mean? We can get some more information using `st_crs()`:
+
+```{r}
+crs(climate_seq)
+```
+
+This is the well-known text (wkt) description of the CRS, which gives a lot of detail. Let's get a simpler version:
+
+```{r}
+crs(climate_seq, describe = TRUE)
+```
+
+We often have to deal with spatial data that have different CRS's, which involves transforming the data from one CRS to another. But first, what is a CRS?
+
+#### Coordinate reference systems
+
+<details>
+<summary>Click here to expand this section</summary>
+
+If we want to know where things are in space, we need to use some kind of spatial reference. We can use our own arbitrary system, e.g. a sampling grid like the one shown in the photo below where we could define the location of each square relative to one of the corners. But normally we want to know where something is on Earth.
+
+```{r}
+#| echo: false
+
+knitr::include_graphics("figs/quadrat.jpg")
+```
+
+There are two types of coordinate systems we can use to represent locations on Earth:
+
+- Geographic coordinate systems (GCS): uses a 3-D surface (e.g. globe) to define locations on the Earth using longitude and latitude. The 3-D surface is normally an ellipsoid which approximates the Earth but cannot be exact since the Earth is not a smooth surface. This approximation of the Earth is called a datum and can be aligned with the true Earth (the geoid) in different ways depending on whether we are trying to get a good approximation at some particular location (local datum), e.g. Brisbane, or best approximation across the whole Earth (geocentric datum). The figure below (sourced from [here](https://mgimond.github.io/Spatial/chp09_0.html)) shows examples of these datums.
+
+```{r}
+#| echo: false
+
+knitr::include_graphics("figs/datums.png")
+```
+
+A commonly used geocentric datum is World Geodetic Survey for 1984 (WGS84). This is almost synonymous with the commonly used coordinate reference system EPSG 4326, but EPSG 4326 defines the latitude and longitude coordinates used on the WGS84 ellipsoid ([Ref](https://gis.stackexchange.com/questions/3334/difference-between-wgs84-and-epsg4326))
+
+- Projected coordinate system (projection): Unfortunately, we can't carry around globes all the time when we want to look at a map, and doing calculations, such as distance and area, in 3-D is much more difficult than 2-D. So we need a way of getting from our 3-D globe to a piece of paper (or for younger people, a screen). To do this we need to 'project' from a GCS to a projected coordinate system, which is called projection because we can think of this as putting a light in the centre of a globe and the light shines through the globe projecting features onto a flat piece of paper. The figure below (from [QGIS docs](https://docs.qgis.org/3.34/en/docs/gentle_gis_introduction/coordinate_reference_systems.html)) illustrates this, showing the 3 projection families:
+
+```{r}
+#| echo: false
+#| fig-cap: "a) Cylindrical; b) conical, and; c) planar projecions"
+
+knitr::include_graphics("figs/projections_qgis_docs.png")
+```
+
+All projections are a compromise because they will always distort the shape, area, distances, and directions of the original GCS. A map that preserves shape is called conformal; one that preserves area is called equal-area; one that preserves distance is called equidistant; and one that preserves direction is called azimuthal. There are a huge number of projections available and choosing the correct one can be challenging. Often your choice will be to use the a local projection that is used by goverment or other authorities in the location you are working, e.g. for this workshop we will use [EPSG 7843, GDA2020 / MGA zone 56](https://spatialreference.org/ref/epsg/7843/), which is suitable for our study area of south-east Queensland. For global work where equal area is important, the Mollweide projection is commonly used.
+
+We have only covered the basics of coordinate reference systems because it is a big topic to cover. The following resources are useful for understanding in more depth:
+
+- The QGIS software [documentation](https://docs.qgis.org/3.34/en/docs/gentle_gis_introduction/coordinate_reference_systems.html)
+- The Geocomputation with R [book section](https://r.geocompx.org/spatial-class#crs-intro)
+- R for Spatial Data Science book [section](https://r-spatial.org/book/08-Plotting.html)
+- Stackexchange [question](https://gis.stackexchange.com/questions/149749/is-wgs84-a-coordinate-system-or-projection-system) about WGS84
+
+</details>
+
+Coming back to our Queensland data, you will remember (or do `st_crs(lgas)`) that it is in the WGS 84 CRS, which is a geographic CRS. We want to transform it into a suitable projected CRS. We will be using GDA2020 / MGA zone 56, which is identified by the EPSG code 7843, and is suitable for SEQ. Transforming between one CRS and another is done using `st_transform()`:
+
+```{r}
+lgas_projected <- st_transform(lgas, 7843)
+
+plot(lgas_projected[, "lga"], axes = TRUE)
+```
+
+The data looks the same, but our axes are no longer in degrees latitude and longitude. What are our units of measurement in our projected CRS? Normally they would be metres (unless you're in some weird American projection and you're using feet), but lets check:
+
+```{r}
+st_crs(lgas_projected)$units_gdal
+```
+
+Yep, we're in metres. Compare this to the units for the unprojected data:
+
+```{r}
+st_crs(lgas)$units_gdal
+```
+
+
 ### Saving
 
 We will need the SEQ polygon later, so lets save it using `st_write()`:
 
 ```{r}
-st_write(seq_boundary, "data/seq_polygon.gpkg")
+st_write(seq_boundary, "data/seq_polygon.gpkg", append = FALSE)
 ```
 
 You can save in many different formats (see `st_drivers()`). You can change the file format just by changing the file extension, e.g. use "seq_polygon.shp" if you want a shapefile.
 
-TO DO: Projection before saving. Might be easiest to have the original lgas object in 4326 and then project since that's easier to understand and more common. 
+We use the `append = FALSE` argument to overwrite a file with the same name. This is useful if you are making changes to code and want to make sure that the most up-to-date version of your data gets saved.
+
+
+### Projecting
+
+We only want data for south-east Queensland (SEQ). Our polygon of SEQ is in a local projection, EPSG 3112. To get our raster into the same projection, we need to project it. In `terra` we use the function `project()` which is equivalent to the `st_transform()` function from the `sf` package:
 
 ```{r}
+climate1_projected <- project(climate1, "EPSG:3112")
+
+plot(climate1_projected)
+```
+
+It is really important to understand that when we project a raster, we are changing the raster, because we have to create a new raster in the new CRS. 
+
+Lets compare our original raster and the projected version:
+
+```{r}
+climate1
+```
+
+```{r}
+climate1_projected
+```
+
+The projected raster is in the Geosciences Australia Lambert projection, and the extent, resolution, and dimensions have all changed. This CRS has units of meters, which means the size of each raster cell is `r sprintf("%.2f", res(climate1_projected)[1])`m x `r sprintf("%.2f", res(climate1_projected)[2])`m. 
+
+Let's compare the statistics for the two rasters:
+
+```{r}
+summary(climate1)
+
+summary(climate1_projected)
+```
+
+The statistics are similar, but not exactly the same. There are also a lot more NA values in the projected raster, largely because there are more cells: `r format(ncell(climate1), scientific = F)` in the original and `r format(ncell(climate1_projected), scientific = F)` in the projected raster.
+
+These changes in the raster are really important to think about when making decisions about projecting rasters. In general avoid projecting rasters if you can. You can find more information about the methods you can use when project in the `project()` help file (`?project`).
+
+### Many raster layers
+
+We've been working with just one raster, but what if we want to do the same thing to many rasters at the same time?
+
+```{r}
+par(mfrow = c(1,2))
+
+test1 <- climate1 |> 
+  crop(seq_boundary |> st_transform(4326), mask = TRUE) |>
+  project("EPSG:7843") |> 
+  cellSize()
+
+test2 <- climate1 |> 
+  crop(seq_boundary |> st_transform(4326), mask = TRUE) |>
+  project("EPSG:7856") |> 
+  cellSize()
+
+test1area <- test1$area/(global(test1, "max")[[1]])
+test2area <- test2$area/(global(test2, "max")[[1]])
+
+plot(test1area)
+plot(test2area)
+lines(seq_boundary |> st_transform(crs(test2area)) |> vect())
 
 ```
 
