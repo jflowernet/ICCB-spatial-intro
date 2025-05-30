@@ -390,6 +390,10 @@ lines(seq_vect)
 
 plot(crop(climate1, seq_vect, mask = TRUE), main = "Cropped and masked")
 lines(seq_vect)
+```
+
+```{r}
+#| include: false
 
 par(mfrow = c(1,1))
 ```
@@ -398,7 +402,7 @@ Why not just mask rather than crop and mask? As we see in the figure above, this
 
 ### Raster values
 
-We might want to examine some summaries of the raster values. We can get a histogram of all the values in a raster just using the `hist()` function:
+Remember that each cell in our raster has a value. We might want to examine some summaries of these raster values. We can get a histogram of all the values in a raster using the `hist()` function:
 
 ```{r}
 hist(climate_seq)
@@ -480,7 +484,7 @@ A commonly used geocentric datum is World Geodetic Survey for 1984 (WGS84). This
 knitr::include_graphics("figs/projections_qgis_docs.png")
 ```
 
-All projections are a compromise because they will always distort the shape, area, distances, and directions of the original GCS. A map that preserves shape is called conformal; one that preserves area is called equal-area; one that preserves distance is called equidistant; and one that preserves direction is called azimuthal. There are a huge number of projections available and choosing the correct one can be challenging. Often your choice will be to use the a local projection that is used by goverment or other authorities in the location you are working, e.g. for this workshop we will use [EPSG 7843, GDA2020 / MGA zone 56](https://spatialreference.org/ref/epsg/7843/), which is suitable for our study area of south-east Queensland. For global work where equal area is important, the Mollweide projection is commonly used.
+All projections are a compromise because they will always distort the shape, area, distances, and directions of the original GCS. A map that preserves shape is called conformal; one that preserves area is called equal-area; one that preserves distance is called equidistant; and one that preserves direction is called azimuthal. There are a huge number of projections available and choosing the correct one can be challenging. Often your choice will be to use the a local projection that is used by goverment or other authorities in the location you are working, e.g. for this workshop we will use [EPSG 7856, GDA2020 / MGA zone 56](https://spatialreference.org/ref/epsg/7856/), which is suitable for our study area of south-east Queensland. For global work where equal area is important, the Mollweide projection is commonly used.
 
 We have only covered the basics of coordinate reference systems because it is a big topic to cover. The following resources are useful for understanding in more depth:
 
@@ -491,48 +495,38 @@ We have only covered the basics of coordinate reference systems because it is a 
 
 </details>
 
-Coming back to our Queensland data, you will remember (or do `st_crs(lgas)`) that it is in the WGS 84 CRS, which is a geographic CRS. We want to transform it into a suitable projected CRS. We will be using GDA2020 / MGA zone 56, which is identified by the EPSG code 7843, and is suitable for SEQ. Transforming between one CRS and another is done using `st_transform()`:
+Coming back to our Queensland data, you will remember that it is in the WGS 84 CRS, which is a geographic CRS. We want to transform it into a suitable projected CRS. We will be using GDA2020 / MGA zone 56, which is identified by the EPSG code 7843. Let's check if this is a suitable projection:
 
 ```{r}
-lgas_projected <- st_transform(lgas, 7843)
-
-plot(lgas_projected[, "lga"], axes = TRUE)
+crs("EPSG:7856", describe = TRUE)
 ```
 
-The data looks the same, but our axes are no longer in degrees latitude and longitude. What are our units of measurement in our projected CRS? Normally they would be metres (unless you're in some weird American projection and you're using feet), but lets check:
+It says it's suitable for Australia between 150°E and 156°E. Is our data between those bounds? We can check by finding the extent of the unprojected data, which is in degrees longitude and latitude:
 
 ```{r}
-st_crs(lgas_projected)$units_gdal
+ext(climate_seq)
+```
+
+Yep, we're good!
+
+So now we can go ahead and project the data:
+
+```{r}
+climate_seq_projected <- project(climate_seq, "EPSG:7856")
+
+plot(climate_seq_projected)
+```
+
+The data looks the same, but our axes are no longer in degrees latitude and longitude. What are our units of measurement in our projected CRS? Normally they would be metres (unless you're in some weird American projection and you're using feet), but lets check. We need to use `sf`'s crs function for this:
+
+```{r}
+st_crs(climate_seq_projected)$units_gdal
 ```
 
 Yep, we're in metres. Compare this to the units for the unprojected data:
 
 ```{r}
-st_crs(lgas)$units_gdal
-```
-
-
-### Saving
-
-We will need the SEQ polygon later, so lets save it using `st_write()`:
-
-```{r}
-st_write(seq_boundary, "data/seq_polygon.gpkg", append = FALSE)
-```
-
-You can save in many different formats (see `st_drivers()`). You can change the file format just by changing the file extension, e.g. use "seq_polygon.shp" if you want a shapefile.
-
-We use the `append = FALSE` argument to overwrite a file with the same name. This is useful if you are making changes to code and want to make sure that the most up-to-date version of your data gets saved.
-
-
-### Projecting
-
-We only want data for south-east Queensland (SEQ). Our polygon of SEQ is in a local projection, EPSG 3112. To get our raster into the same projection, we need to project it. In `terra` we use the function `project()` which is equivalent to the `st_transform()` function from the `sf` package:
-
-```{r}
-climate1_projected <- project(climate1, "EPSG:3112")
-
-plot(climate1_projected)
+st_crs(climate_seq)$units_gdal
 ```
 
 It is really important to understand that when we project a raster, we are changing the raster, because we have to create a new raster in the new CRS. 
@@ -540,32 +534,62 @@ It is really important to understand that when we project a raster, we are chang
 Lets compare our original raster and the projected version:
 
 ```{r}
-climate1
+climate_seq
 ```
 
 ```{r}
-climate1_projected
+climate_seq_projected
 ```
 
-The projected raster is in the Geosciences Australia Lambert projection, and the extent, resolution, and dimensions have all changed. This CRS has units of meters, which means the size of each raster cell is `r sprintf("%.2f", res(climate1_projected)[1])`m x `r sprintf("%.2f", res(climate1_projected)[2])`m. 
+The extent, resolution, and dimensions of the projected raster are all different from the unprojected one. This projected CRS has units of meters, which means the size of each raster cell is `r sprintf("%.2f", res(climate_seq_projected)[1])`m x `r sprintf("%.2f", res(climate_seq_projected)[2])`m. 
 
 Let's compare the statistics for the two rasters:
 
 ```{r}
-summary(climate1)
+summary(climate_seq)
 
-summary(climate1_projected)
+summary(climate_seq_projected)
 ```
 
-The statistics are similar, but not exactly the same. There are also a lot more NA values in the projected raster, largely because there are more cells: `r format(ncell(climate1), scientific = F)` in the original and `r format(ncell(climate1_projected), scientific = F)` in the projected raster.
+The statistics are similar, but not exactly the same. There are more NA values in the projected raster, largely because there are more cells: `r format(ncell(climate_seq), scientific = F)` in the original and `r format(ncell(climate_seq_projected), scientific = F)` in the projected raster.
 
 These changes in the raster are really important to think about when making decisions about projecting rasters. In general avoid projecting rasters if you can. You can find more information about the methods you can use when project in the `project()` help file (`?project`).
+
+We can also project vector data. For this we use the `sf` function `st_transform()`. Let's project our SEQ boundary polygon into the local projection:
+
+```{r}
+seq_boundary_projected <- st_transform(seq_boundary, 7856)
+
+seq_boundary_projected
+```
+
+Note that we don't need to use the "EPSG:" part like we did when using `project()`.
+
+The nice thing about projecting vector data is that the values stay the same. So if you can, project your vector data into the CRS of your raster data.
 
 ### Many raster layers
 
 We've been working with just one raster, but what if we want to do the same thing to many rasters at the same time?
 
+
+### Saving
+
+We will need the SEQ polygon later, so lets save it using `st_write()`:
+
 ```{r}
+st_write(seq_boundary_projected, "data/seq_boundary.gpkg", append = FALSE)
+```
+
+You can save in many different formats (see `st_drivers()`). You can change the file format just by changing the file extension, e.g. use "seq_polygon.shp" if you want a shapefile.
+
+We use the `append = FALSE` argument to overwrite a file with the same name. This is useful if you are making changes to code and want to make sure that the most up-to-date version of your data gets saved.
+
+
+```{r}
+#| include: false
+
+## CODE TO COMPARE PROJECTIONS ####
+
 par(mfrow = c(1,2))
 
 test1 <- climate1 |> 
