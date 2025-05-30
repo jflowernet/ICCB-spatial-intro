@@ -4471,10 +4471,11 @@ window.onload = function() {
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>lux <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="fu">system.file</span>(<span class="st">&quot;ex/lux.shp&quot;</span>, <span class="at">package =</span> <span class="st">&quot;terra&quot;</span>))</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pts, <span class="at">axes =</span> F, <span class="at">main =</span> <span class="st">&quot;Points&quot;</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lnes, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">axes =</span> F, <span class="at">main =</span> <span class="st">&quot;Lines&quot;</span>)</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lux, <span class="st">&quot;NAME_2&quot;</span>, <span class="at">col =</span> <span class="fu">terrain.colors</span>(<span class="dv">12</span>), <span class="at">las =</span> <span class="dv">1</span>, <span class="at">axes =</span> F, <span class="at">main =</span> <span class="st">&quot;Polygons&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">rep</span>(<span class="fl">0.1</span>,<span class="dv">4</span>))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pts, <span class="at">axes =</span> F, <span class="at">main =</span> <span class="st">&quot;Points&quot;</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lnes, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">axes =</span> F, <span class="at">main =</span> <span class="st">&quot;Lines&quot;</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lux, <span class="st">&quot;NAME_2&quot;</span>, <span class="at">col =</span> <span class="fu">terrain.colors</span>(<span class="dv">12</span>), <span class="at">las =</span> <span class="dv">1</span>, <span class="at">axes =</span> F, <span class="at">main =</span> <span class="st">&quot;Polygons&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -4492,17 +4493,18 @@ window.onload = function() {
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>elev <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;ex/elev.tif&quot;</span>, <span class="at">package =</span> <span class="st">&quot;terra&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rast</span>() <span class="sc">|&gt;</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aggregate</span>(<span class="at">fact =</span> <span class="dv">2</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">&quot;Elevation map&quot;</span>, <span class="at">col =</span> <span class="fu">terrain.colors</span>(<span class="dv">100</span>))</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>elev <span class="sc">|&gt;</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.polygons</span>(<span class="at">aggregate =</span> <span class="cn">FALSE</span>, <span class="at">na.rm =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">col =</span> <span class="st">&quot;grey40&quot;</span>, <span class="at">lwd =</span> <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) <span class="co">#return to defaults</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fl">0.1</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>elev <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;ex/elev.tif&quot;</span>, <span class="at">package =</span> <span class="st">&quot;terra&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rast</span>() <span class="sc">|&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aggregate</span>(<span class="at">fact =</span> <span class="dv">2</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">&quot;Elevation map&quot;</span>, <span class="at">col =</span> <span class="fu">terrain.colors</span>(<span class="dv">100</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>elev <span class="sc">|&gt;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.polygons</span>(<span class="at">aggregate =</span> <span class="cn">FALSE</span>, <span class="at">na.rm =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">col =</span> <span class="st">&quot;grey40&quot;</span>, <span class="at">lwd =</span> <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -5786,550 +5788,552 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-72"><a href="#cb68-72" aria-hidden="true" tabindex="-1"></a>lux <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="fu">system.file</span>(<span class="st">&quot;ex/lux.shp&quot;</span>, <span class="at">package =</span> <span class="st">&quot;terra&quot;</span>))</span>
 <span id="cb68-73"><a href="#cb68-73" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-74"><a href="#cb68-74" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
-<span id="cb68-75"><a href="#cb68-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-76"><a href="#cb68-76" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pts, <span class="at">axes =</span> F, <span class="at">main =</span> <span class="st">&quot;Points&quot;</span>)</span>
-<span id="cb68-77"><a href="#cb68-77" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lnes, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">axes =</span> F, <span class="at">main =</span> <span class="st">&quot;Lines&quot;</span>)</span>
-<span id="cb68-78"><a href="#cb68-78" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lux, <span class="st">&quot;NAME_2&quot;</span>, <span class="at">col =</span> <span class="fu">terrain.colors</span>(<span class="dv">12</span>), <span class="at">las =</span> <span class="dv">1</span>, <span class="at">axes =</span> F, <span class="at">main =</span> <span class="st">&quot;Polygons&quot;</span>)</span>
-<span id="cb68-79"><a href="#cb68-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-80"><a href="#cb68-80" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-81"><a href="#cb68-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-82"><a href="#cb68-82" aria-hidden="true" tabindex="-1"></a><span class="fu">## Raster data </span></span>
-<span id="cb68-83"><a href="#cb68-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-84"><a href="#cb68-84" aria-hidden="true" tabindex="-1"></a>Raster data is a grid of rectangles, normally called cells. Each cell has a value, making rasters useful for storing continuous data, such as temperature and elevation.</span>
-<span id="cb68-85"><a href="#cb68-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-86"><a href="#cb68-86" aria-hidden="true" tabindex="-1"></a>Here is an example of raster data, where each cell in the raster represents elevation.</span>
-<span id="cb68-87"><a href="#cb68-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-90"><a href="#cb68-90" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-91"><a href="#cb68-91" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb68-92"><a href="#cb68-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-93"><a href="#cb68-93" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb68-94"><a href="#cb68-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-95"><a href="#cb68-95" aria-hidden="true" tabindex="-1"></a>elev <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;ex/elev.tif&quot;</span>, <span class="at">package =</span> <span class="st">&quot;terra&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb68-96"><a href="#cb68-96" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rast</span>() <span class="sc">|&gt;</span></span>
-<span id="cb68-97"><a href="#cb68-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aggregate</span>(<span class="at">fact =</span> <span class="dv">2</span>)</span>
-<span id="cb68-98"><a href="#cb68-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-99"><a href="#cb68-99" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">&quot;Elevation map&quot;</span>, <span class="at">col =</span> <span class="fu">terrain.colors</span>(<span class="dv">100</span>))</span>
+<span id="cb68-75"><a href="#cb68-75" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">rep</span>(<span class="fl">0.1</span>,<span class="dv">4</span>))</span>
+<span id="cb68-76"><a href="#cb68-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-77"><a href="#cb68-77" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pts, <span class="at">axes =</span> F, <span class="at">main =</span> <span class="st">&quot;Points&quot;</span>)</span>
+<span id="cb68-78"><a href="#cb68-78" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lnes, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">axes =</span> F, <span class="at">main =</span> <span class="st">&quot;Lines&quot;</span>)</span>
+<span id="cb68-79"><a href="#cb68-79" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lux, <span class="st">&quot;NAME_2&quot;</span>, <span class="at">col =</span> <span class="fu">terrain.colors</span>(<span class="dv">12</span>), <span class="at">las =</span> <span class="dv">1</span>, <span class="at">axes =</span> F, <span class="at">main =</span> <span class="st">&quot;Polygons&quot;</span>)</span>
+<span id="cb68-80"><a href="#cb68-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-81"><a href="#cb68-81" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb68-82"><a href="#cb68-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-83"><a href="#cb68-83" aria-hidden="true" tabindex="-1"></a><span class="fu">## Raster data </span></span>
+<span id="cb68-84"><a href="#cb68-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-85"><a href="#cb68-85" aria-hidden="true" tabindex="-1"></a>Raster data is a grid of rectangles, normally called cells. Each cell has a value, making rasters useful for storing continuous data, such as temperature and elevation.</span>
+<span id="cb68-86"><a href="#cb68-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-87"><a href="#cb68-87" aria-hidden="true" tabindex="-1"></a>Here is an example of raster data, where each cell in the raster represents elevation.</span>
+<span id="cb68-88"><a href="#cb68-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-91"><a href="#cb68-91" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-92"><a href="#cb68-92" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb68-93"><a href="#cb68-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-94"><a href="#cb68-94" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) <span class="co">#return to defaults</span></span>
+<span id="cb68-95"><a href="#cb68-95" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fl">0.1</span>)</span>
+<span id="cb68-96"><a href="#cb68-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-97"><a href="#cb68-97" aria-hidden="true" tabindex="-1"></a>elev <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;ex/elev.tif&quot;</span>, <span class="at">package =</span> <span class="st">&quot;terra&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb68-98"><a href="#cb68-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rast</span>() <span class="sc">|&gt;</span></span>
+<span id="cb68-99"><a href="#cb68-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aggregate</span>(<span class="at">fact =</span> <span class="dv">2</span>)</span>
 <span id="cb68-100"><a href="#cb68-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-101"><a href="#cb68-101" aria-hidden="true" tabindex="-1"></a>elev <span class="sc">|&gt;</span></span>
-<span id="cb68-102"><a href="#cb68-102" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.polygons</span>(<span class="at">aggregate =</span> <span class="cn">FALSE</span>, <span class="at">na.rm =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb68-103"><a href="#cb68-103" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">col =</span> <span class="st">&quot;grey40&quot;</span>, <span class="at">lwd =</span> <span class="fl">0.2</span>)</span>
-<span id="cb68-104"><a href="#cb68-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-105"><a href="#cb68-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb68-101"><a href="#cb68-101" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">&quot;Elevation map&quot;</span>, <span class="at">col =</span> <span class="fu">terrain.colors</span>(<span class="dv">100</span>))</span>
+<span id="cb68-102"><a href="#cb68-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-103"><a href="#cb68-103" aria-hidden="true" tabindex="-1"></a>elev <span class="sc">|&gt;</span></span>
+<span id="cb68-104"><a href="#cb68-104" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.polygons</span>(<span class="at">aggregate =</span> <span class="cn">FALSE</span>, <span class="at">na.rm =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb68-105"><a href="#cb68-105" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">col =</span> <span class="st">&quot;grey40&quot;</span>, <span class="at">lwd =</span> <span class="fl">0.2</span>)</span>
 <span id="cb68-106"><a href="#cb68-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-107"><a href="#cb68-107" aria-hidden="true" tabindex="-1"></a><span class="fu"># Getting started</span></span>
+<span id="cb68-107"><a href="#cb68-107" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-108"><a href="#cb68-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-109"><a href="#cb68-109" aria-hidden="true" tabindex="-1"></a><span class="fu">## Making and inspecting a raster</span></span>
+<span id="cb68-109"><a href="#cb68-109" aria-hidden="true" tabindex="-1"></a><span class="fu"># Getting started</span></span>
 <span id="cb68-110"><a href="#cb68-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-111"><a href="#cb68-111" aria-hidden="true" tabindex="-1"></a>Lets start by creating our own raster. We will be doing all manipulation of rasters with the <span class="in">`terra`</span> package. To create rasters from scratch or load them from a file we use the function <span class="in">`rast()`</span>. We can create a simple raster by specifying the x and y limits for the raster and the resolution (how big each cell is).</span>
+<span id="cb68-111"><a href="#cb68-111" aria-hidden="true" tabindex="-1"></a><span class="fu">## Making and inspecting a raster</span></span>
 <span id="cb68-112"><a href="#cb68-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-113"><a href="#cb68-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-116"><a href="#cb68-116" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-117"><a href="#cb68-117" aria-hidden="true" tabindex="-1"></a><span class="co">#create raster</span></span>
-<span id="cb68-118"><a href="#cb68-118" aria-hidden="true" tabindex="-1"></a>ras <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="at">xmin =</span> <span class="dv">0</span>, <span class="at">xmax =</span> <span class="dv">10</span>, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> <span class="dv">10</span>, <span class="at">resolution =</span> <span class="dv">2</span>)</span>
-<span id="cb68-119"><a href="#cb68-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-120"><a href="#cb68-120" aria-hidden="true" tabindex="-1"></a><span class="co">#see what we&#39;ve created</span></span>
-<span id="cb68-121"><a href="#cb68-121" aria-hidden="true" tabindex="-1"></a>ras</span>
-<span id="cb68-122"><a href="#cb68-122" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-123"><a href="#cb68-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-124"><a href="#cb68-124" aria-hidden="true" tabindex="-1"></a>The figure below shows what most of the terms above refer to. As you can see, you don&#39;t need to use all the terms to define a raster. Some other important points to note:</span>
+<span id="cb68-113"><a href="#cb68-113" aria-hidden="true" tabindex="-1"></a>Lets start by creating our own raster. We will be doing all manipulation of rasters with the <span class="in">`terra`</span> package. To create rasters from scratch or load them from a file we use the function <span class="in">`rast()`</span>. We can create a simple raster by specifying the x and y limits for the raster and the resolution (how big each cell is).</span>
+<span id="cb68-114"><a href="#cb68-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-115"><a href="#cb68-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-118"><a href="#cb68-118" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-119"><a href="#cb68-119" aria-hidden="true" tabindex="-1"></a><span class="co">#create raster</span></span>
+<span id="cb68-120"><a href="#cb68-120" aria-hidden="true" tabindex="-1"></a>ras <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="at">xmin =</span> <span class="dv">0</span>, <span class="at">xmax =</span> <span class="dv">10</span>, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> <span class="dv">10</span>, <span class="at">resolution =</span> <span class="dv">2</span>)</span>
+<span id="cb68-121"><a href="#cb68-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-122"><a href="#cb68-122" aria-hidden="true" tabindex="-1"></a><span class="co">#see what we&#39;ve created</span></span>
+<span id="cb68-123"><a href="#cb68-123" aria-hidden="true" tabindex="-1"></a>ras</span>
+<span id="cb68-124"><a href="#cb68-124" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-125"><a href="#cb68-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-126"><a href="#cb68-126" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Every object in R has a class, such as <span class="in">`data.frame`</span> and as you can see, rasters in terra are of class <span class="in">`SpatRaster`</span>. </span>
-<span id="cb68-127"><a href="#cb68-127" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We did not tell <span class="in">`rast()`</span> which coordinate reference system to use, so it defaults to using longitude latitude coordinates, also known as EPSG 4326. We will come back to coordinate reference systems later.</span>
-<span id="cb68-128"><a href="#cb68-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-131"><a href="#cb68-131" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-132"><a href="#cb68-132" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb68-133"><a href="#cb68-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-134"><a href="#cb68-134" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;figs/terra_raster_properties_figure.png&quot;</span>)</span>
-<span id="cb68-135"><a href="#cb68-135" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-136"><a href="#cb68-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-137"><a href="#cb68-137" aria-hidden="true" tabindex="-1"></a>But what does the raster we created actually look like when plotted. Lets see. All we need is <span class="in">`plot()`</span></span>
+<span id="cb68-126"><a href="#cb68-126" aria-hidden="true" tabindex="-1"></a>The figure below shows what most of the terms above refer to. As you can see, you don&#39;t need to use all the terms to define a raster. Some other important points to note:</span>
+<span id="cb68-127"><a href="#cb68-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-128"><a href="#cb68-128" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Every object in R has a class, such as <span class="in">`data.frame`</span> and as you can see, rasters in terra are of class <span class="in">`SpatRaster`</span>. </span>
+<span id="cb68-129"><a href="#cb68-129" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We did not tell <span class="in">`rast()`</span> which coordinate reference system to use, so it defaults to using longitude latitude coordinates, also known as EPSG 4326. We will come back to coordinate reference systems later.</span>
+<span id="cb68-130"><a href="#cb68-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-133"><a href="#cb68-133" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-134"><a href="#cb68-134" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb68-135"><a href="#cb68-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-136"><a href="#cb68-136" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;figs/terra_raster_properties_figure.png&quot;</span>)</span>
+<span id="cb68-137"><a href="#cb68-137" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-138"><a href="#cb68-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-141"><a href="#cb68-141" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-142"><a href="#cb68-142" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 3</span></span>
-<span id="cb68-143"><a href="#cb68-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-144"><a href="#cb68-144" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ras)</span>
-<span id="cb68-145"><a href="#cb68-145" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-146"><a href="#cb68-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-147"><a href="#cb68-147" aria-hidden="true" tabindex="-1"></a>Why is there no plot? Because the raster we created is empty; there are no values associated with the the cells. Lets assign some values to each cell in the raster and try again. First we will find out how many cells are in our raster using `ncell()</span>
+<span id="cb68-139"><a href="#cb68-139" aria-hidden="true" tabindex="-1"></a>But what does the raster we created actually look like when plotted. Lets see. All we need is <span class="in">`plot()`</span></span>
+<span id="cb68-140"><a href="#cb68-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-143"><a href="#cb68-143" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-144"><a href="#cb68-144" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 3</span></span>
+<span id="cb68-145"><a href="#cb68-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-146"><a href="#cb68-146" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ras)</span>
+<span id="cb68-147"><a href="#cb68-147" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-148"><a href="#cb68-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-151"><a href="#cb68-151" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-152"><a href="#cb68-152" aria-hidden="true" tabindex="-1"></a><span class="fu">ncell</span>(ras)</span>
-<span id="cb68-153"><a href="#cb68-153" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-154"><a href="#cb68-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-155"><a href="#cb68-155" aria-hidden="true" tabindex="-1"></a>Ok, now we know this lets give our raster cells values from 1 to <span class="in">`r ncell(ras)`</span>:</span>
+<span id="cb68-149"><a href="#cb68-149" aria-hidden="true" tabindex="-1"></a>Why is there no plot? Because the raster we created is empty; there are no values associated with the the cells. Lets assign some values to each cell in the raster and try again. First we will find out how many cells are in our raster using `ncell()</span>
+<span id="cb68-150"><a href="#cb68-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-153"><a href="#cb68-153" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-154"><a href="#cb68-154" aria-hidden="true" tabindex="-1"></a><span class="fu">ncell</span>(ras)</span>
+<span id="cb68-155"><a href="#cb68-155" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-156"><a href="#cb68-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-159"><a href="#cb68-159" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-160"><a href="#cb68-160" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(ras) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span></span>
-<span id="cb68-161"><a href="#cb68-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-162"><a href="#cb68-162" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ras)</span>
-<span id="cb68-163"><a href="#cb68-163" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-164"><a href="#cb68-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-165"><a href="#cb68-165" aria-hidden="true" tabindex="-1"></a>Now our raster has values, we get a plot! Each cell has an integer value between 1 and 25, with cell values increasing from left to right and top to bottom. So the values start being &quot;filled up&quot; in the top left, and finish in the bottom right.</span>
+<span id="cb68-157"><a href="#cb68-157" aria-hidden="true" tabindex="-1"></a>Ok, now we know this lets give our raster cells values from 1 to <span class="in">`r ncell(ras)`</span>:</span>
+<span id="cb68-158"><a href="#cb68-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-161"><a href="#cb68-161" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-162"><a href="#cb68-162" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(ras) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span></span>
+<span id="cb68-163"><a href="#cb68-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-164"><a href="#cb68-164" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ras)</span>
+<span id="cb68-165"><a href="#cb68-165" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-166"><a href="#cb68-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-167"><a href="#cb68-167" aria-hidden="true" tabindex="-1"></a>Lets have another look at our raster properties</span>
+<span id="cb68-167"><a href="#cb68-167" aria-hidden="true" tabindex="-1"></a>Now our raster has values, we get a plot! Each cell has an integer value between 1 and 25, with cell values increasing from left to right and top to bottom. So the values start being &quot;filled up&quot; in the top left, and finish in the bottom right.</span>
 <span id="cb68-168"><a href="#cb68-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-171"><a href="#cb68-171" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-172"><a href="#cb68-172" aria-hidden="true" tabindex="-1"></a>ras</span>
-<span id="cb68-173"><a href="#cb68-173" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-174"><a href="#cb68-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-175"><a href="#cb68-175" aria-hidden="true" tabindex="-1"></a>We can now see a few extra pieces of information compared to last time:</span>
+<span id="cb68-169"><a href="#cb68-169" aria-hidden="true" tabindex="-1"></a>Lets have another look at our raster properties</span>
+<span id="cb68-170"><a href="#cb68-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-173"><a href="#cb68-173" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-174"><a href="#cb68-174" aria-hidden="true" tabindex="-1"></a>ras</span>
+<span id="cb68-175"><a href="#cb68-175" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-176"><a href="#cb68-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-177"><a href="#cb68-177" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`sources(s)`</span>: where is the data held on your computer? It says <span class="in">`memory`</span> for this raster, indicating that the raster is in the computer memory. Rasters can also be held on your hard disk, in which case this will be the file name of the raster. We won&#39;t go into details here, but <span class="in">`terra`</span> is smart about loading data into memory, only doing so when it needs to and it thinks it will have enough space.</span>
-<span id="cb68-178"><a href="#cb68-178" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`name`</span>: what is the raster called?</span>
-<span id="cb68-179"><a href="#cb68-179" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`min value`</span> &amp; <span class="in">`max value`</span>: the minimum and maximum values in the raster</span>
-<span id="cb68-180"><a href="#cb68-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-181"><a href="#cb68-181" aria-hidden="true" tabindex="-1"></a>Ok, now we understand the basic structure of a raster, lets look at vector data using the <span class="in">`sf`</span> package.</span>
+<span id="cb68-177"><a href="#cb68-177" aria-hidden="true" tabindex="-1"></a>We can now see a few extra pieces of information compared to last time:</span>
+<span id="cb68-178"><a href="#cb68-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-179"><a href="#cb68-179" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`sources(s)`</span>: where is the data held on your computer? It says <span class="in">`memory`</span> for this raster, indicating that the raster is in the computer memory. Rasters can also be held on your hard disk, in which case this will be the file name of the raster. We won&#39;t go into details here, but <span class="in">`terra`</span> is smart about loading data into memory, only doing so when it needs to and it thinks it will have enough space.</span>
+<span id="cb68-180"><a href="#cb68-180" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`name`</span>: what is the raster called?</span>
+<span id="cb68-181"><a href="#cb68-181" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`min value`</span> &amp; <span class="in">`max value`</span>: the minimum and maximum values in the raster</span>
 <span id="cb68-182"><a href="#cb68-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-183"><a href="#cb68-183" aria-hidden="true" tabindex="-1"></a><span class="fu">## Making and inspecting a vector</span></span>
+<span id="cb68-183"><a href="#cb68-183" aria-hidden="true" tabindex="-1"></a>Ok, now we understand the basic structure of a raster, lets look at vector data using the <span class="in">`sf`</span> package.</span>
 <span id="cb68-184"><a href="#cb68-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-185"><a href="#cb68-185" aria-hidden="true" tabindex="-1"></a>As mentioned earlier, vector data can be points, lines or polygons. Let&#39;s start by making a single spatial point and plot it:</span>
+<span id="cb68-185"><a href="#cb68-185" aria-hidden="true" tabindex="-1"></a><span class="fu">## Making and inspecting a vector</span></span>
 <span id="cb68-186"><a href="#cb68-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-189"><a href="#cb68-189" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-190"><a href="#cb68-190" aria-hidden="true" tabindex="-1"></a>pt <span class="ot">&lt;-</span> <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
-<span id="cb68-191"><a href="#cb68-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-192"><a href="#cb68-192" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pt, <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb68-193"><a href="#cb68-193" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-194"><a href="#cb68-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-195"><a href="#cb68-195" aria-hidden="true" tabindex="-1"></a>Simple! But this is just a point. What if we want our point to have some information attached to it? For example, what the temperature is at that point. Well first we need to convert it into a simple feature collection:</span>
+<span id="cb68-187"><a href="#cb68-187" aria-hidden="true" tabindex="-1"></a>As mentioned earlier, vector data can be points, lines or polygons. Let&#39;s start by making a single spatial point and plot it:</span>
+<span id="cb68-188"><a href="#cb68-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-191"><a href="#cb68-191" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-192"><a href="#cb68-192" aria-hidden="true" tabindex="-1"></a>pt <span class="ot">&lt;-</span> <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb68-193"><a href="#cb68-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-194"><a href="#cb68-194" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pt, <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb68-195"><a href="#cb68-195" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-196"><a href="#cb68-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-199"><a href="#cb68-199" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-200"><a href="#cb68-200" aria-hidden="true" tabindex="-1"></a>pt_sf <span class="ot">&lt;-</span> pt <span class="sc">|&gt;</span> </span>
-<span id="cb68-201"><a href="#cb68-201" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sfc</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb68-202"><a href="#cb68-202" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>()</span>
-<span id="cb68-203"><a href="#cb68-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-204"><a href="#cb68-204" aria-hidden="true" tabindex="-1"></a>pt_sf</span>
-<span id="cb68-205"><a href="#cb68-205" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-206"><a href="#cb68-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-207"><a href="#cb68-207" aria-hidden="true" tabindex="-1"></a>Inspecting the simple feature collection, <span class="in">`pt_sf`</span>, that we created, we see that there is only 1 feature; our point. There is also a bounding box, which is the same concept as the x and y limits we had for our raster. Like the raster, we also have coordinate reference system (CRS), that is currently not defined.</span>
+<span id="cb68-197"><a href="#cb68-197" aria-hidden="true" tabindex="-1"></a>Simple! But this is just a point. What if we want our point to have some information attached to it? For example, what the temperature is at that point. Well first we need to convert it into a simple feature collection:</span>
+<span id="cb68-198"><a href="#cb68-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-201"><a href="#cb68-201" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-202"><a href="#cb68-202" aria-hidden="true" tabindex="-1"></a>pt_sf <span class="ot">&lt;-</span> pt <span class="sc">|&gt;</span> </span>
+<span id="cb68-203"><a href="#cb68-203" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sfc</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb68-204"><a href="#cb68-204" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>()</span>
+<span id="cb68-205"><a href="#cb68-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-206"><a href="#cb68-206" aria-hidden="true" tabindex="-1"></a>pt_sf</span>
+<span id="cb68-207"><a href="#cb68-207" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-208"><a href="#cb68-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-209"><a href="#cb68-209" aria-hidden="true" tabindex="-1"></a>Now our point is a simple feature collection, we can add some information to it. We will add a column called &quot;temperature&quot; and give our point a value of 25.</span>
+<span id="cb68-209"><a href="#cb68-209" aria-hidden="true" tabindex="-1"></a>Inspecting the simple feature collection, <span class="in">`pt_sf`</span>, that we created, we see that there is only 1 feature; our point. There is also a bounding box, which is the same concept as the x and y limits we had for our raster. Like the raster, we also have coordinate reference system (CRS), that is currently not defined.</span>
 <span id="cb68-210"><a href="#cb68-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-213"><a href="#cb68-213" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-214"><a href="#cb68-214" aria-hidden="true" tabindex="-1"></a>pt_sf<span class="sc">$</span>temperature <span class="ot">&lt;-</span> <span class="dv">25</span></span>
-<span id="cb68-215"><a href="#cb68-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-216"><a href="#cb68-216" aria-hidden="true" tabindex="-1"></a>pt_sf</span>
-<span id="cb68-217"><a href="#cb68-217" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-218"><a href="#cb68-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-219"><a href="#cb68-219" aria-hidden="true" tabindex="-1"></a>Now our point has a &quot;field&quot; attached to it with temperature data. The fields are simply columns that have information for each geometry; in our case a point. </span>
+<span id="cb68-211"><a href="#cb68-211" aria-hidden="true" tabindex="-1"></a>Now our point is a simple feature collection, we can add some information to it. We will add a column called &quot;temperature&quot; and give our point a value of 25.</span>
+<span id="cb68-212"><a href="#cb68-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-215"><a href="#cb68-215" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-216"><a href="#cb68-216" aria-hidden="true" tabindex="-1"></a>pt_sf<span class="sc">$</span>temperature <span class="ot">&lt;-</span> <span class="dv">25</span></span>
+<span id="cb68-217"><a href="#cb68-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-218"><a href="#cb68-218" aria-hidden="true" tabindex="-1"></a>pt_sf</span>
+<span id="cb68-219"><a href="#cb68-219" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-220"><a href="#cb68-220" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-221"><a href="#cb68-221" aria-hidden="true" tabindex="-1"></a><span class="fu"># Real world data</span></span>
+<span id="cb68-221"><a href="#cb68-221" aria-hidden="true" tabindex="-1"></a>Now our point has a &quot;field&quot; attached to it with temperature data. The fields are simply columns that have information for each geometry; in our case a point. </span>
 <span id="cb68-222"><a href="#cb68-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-223"><a href="#cb68-223" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vectors</span></span>
+<span id="cb68-223"><a href="#cb68-223" aria-hidden="true" tabindex="-1"></a><span class="fu"># Real world data</span></span>
 <span id="cb68-224"><a href="#cb68-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-225"><a href="#cb68-225" aria-hidden="true" tabindex="-1"></a><span class="fu">### Loading and plotting</span></span>
+<span id="cb68-225"><a href="#cb68-225" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vectors</span></span>
 <span id="cb68-226"><a href="#cb68-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-227"><a href="#cb68-227" aria-hidden="true" tabindex="-1"></a>Most of the time, we won&#39;t be making our own data from scratch, but reading in data that we have downloaded or been provided with. In this workshop, you are going to be doing a case study of Koalas in south-east Queensland (SEQ). One of the first pieces of spatial data we normally need are the boundaries of the area we are working in. We will use spatial data of the local government areas (LGAs) in Queensland downloaded from the Queensland government <span class="co">[</span><span class="ot">website</span><span class="co">](https://qldspatial.information.qld.gov.au/catalogue/custom/detail.page?fid={3F3DBD69-647B-4833-B0A5-CC43D5E70699})</span> to define our SEQ boundary. </span>
+<span id="cb68-227"><a href="#cb68-227" aria-hidden="true" tabindex="-1"></a><span class="fu">### Loading and plotting</span></span>
 <span id="cb68-228"><a href="#cb68-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-229"><a href="#cb68-229" aria-hidden="true" tabindex="-1"></a>We use <span class="in">`st_read()`</span> to read the data which is in the <span class="in">`data`</span> folder you should have downloaded with the code from Github. The file is a Geopackage, which is widely used for storing geospatial data, and is similar (but better!) than shapefile. The <span class="in">`st_read()`</span> command can read data in many different spatial formats: run <span class="in">`st_drivers()`</span> to see a complete list of formats.</span>
+<span id="cb68-229"><a href="#cb68-229" aria-hidden="true" tabindex="-1"></a>Most of the time, we won&#39;t be making our own data from scratch, but reading in data that we have downloaded or been provided with. In this workshop, you are going to be doing a case study of Koalas in south-east Queensland (SEQ). One of the first pieces of spatial data we normally need are the boundaries of the area we are working in. We will use spatial data of the local government areas (LGAs) in Queensland downloaded from the Queensland government <span class="co">[</span><span class="ot">website</span><span class="co">](https://qldspatial.information.qld.gov.au/catalogue/custom/detail.page?fid={3F3DBD69-647B-4833-B0A5-CC43D5E70699})</span> to define our SEQ boundary. </span>
 <span id="cb68-230"><a href="#cb68-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-233"><a href="#cb68-233" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-234"><a href="#cb68-234" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb68-235"><a href="#cb68-235" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-236"><a href="#cb68-236" aria-hidden="true" tabindex="-1"></a>lgas <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;data/Local_Government_Areas.gpkg&quot;</span>) </span>
-<span id="cb68-237"><a href="#cb68-237" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-238"><a href="#cb68-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-239"><a href="#cb68-239" aria-hidden="true" tabindex="-1"></a><span class="in">`sf`</span> gives us some information about the data we have read: we can see it is MULTIPOLYGON and has 78 features and 6 fields, i.e. 78 rows of geometry and 6 columns of data, and its CRS is WGS 84. We will come back to the coordinate reference system (CRS) later, so for now, lets have a look at the first few rows (features):</span>
+<span id="cb68-231"><a href="#cb68-231" aria-hidden="true" tabindex="-1"></a>We use <span class="in">`st_read()`</span> to read the data which is in the <span class="in">`data`</span> folder you should have downloaded with the code from Github. The file is a Geopackage, which is widely used for storing geospatial data, and is similar (but better!) than shapefile. The <span class="in">`st_read()`</span> command can read data in many different spatial formats: run <span class="in">`st_drivers()`</span> to see a complete list of formats.</span>
+<span id="cb68-232"><a href="#cb68-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-235"><a href="#cb68-235" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-236"><a href="#cb68-236" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb68-237"><a href="#cb68-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-238"><a href="#cb68-238" aria-hidden="true" tabindex="-1"></a>lgas <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;data/Local_Government_Areas.gpkg&quot;</span>) </span>
+<span id="cb68-239"><a href="#cb68-239" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-240"><a href="#cb68-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-243"><a href="#cb68-243" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-244"><a href="#cb68-244" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(lgas)</span>
-<span id="cb68-245"><a href="#cb68-245" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-246"><a href="#cb68-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-247"><a href="#cb68-247" aria-hidden="true" tabindex="-1"></a>Now we can see that the 6 fields contain information about each LGA, including various name formats and the areas. The final column called &quot;Shape&quot; contains the spatial information: the coordinates for each point that makes up the polygons. This column is most commonly labelled &quot;geometry&quot;.</span>
+<span id="cb68-241"><a href="#cb68-241" aria-hidden="true" tabindex="-1"></a><span class="in">`sf`</span> gives us some information about the data we have read: we can see it is MULTIPOLYGON and has 78 features and 6 fields, i.e. 78 rows of geometry and 6 columns of data, and its CRS is WGS 84. We will come back to the coordinate reference system (CRS) later, so for now, lets have a look at the first few rows (features):</span>
+<span id="cb68-242"><a href="#cb68-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-245"><a href="#cb68-245" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-246"><a href="#cb68-246" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(lgas)</span>
+<span id="cb68-247"><a href="#cb68-247" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-248"><a href="#cb68-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-249"><a href="#cb68-249" aria-hidden="true" tabindex="-1"></a>The fields in our <span class="in">`sf`</span> data are just like columns in a data frame. So if we want all the values in one column, we can just select that column in the same way as a data frame:</span>
+<span id="cb68-249"><a href="#cb68-249" aria-hidden="true" tabindex="-1"></a>Now we can see that the 6 fields contain information about each LGA, including various name formats and the areas. The final column called &quot;Shape&quot; contains the spatial information: the coordinates for each point that makes up the polygons. This column is most commonly labelled &quot;geometry&quot;.</span>
 <span id="cb68-250"><a href="#cb68-250" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-253"><a href="#cb68-253" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-254"><a href="#cb68-254" aria-hidden="true" tabindex="-1"></a>lgas<span class="sc">$</span>lga</span>
-<span id="cb68-255"><a href="#cb68-255" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-256"><a href="#cb68-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-257"><a href="#cb68-257" aria-hidden="true" tabindex="-1"></a>Let&#39;s plot the data to see what we have:</span>
+<span id="cb68-251"><a href="#cb68-251" aria-hidden="true" tabindex="-1"></a>The fields in our <span class="in">`sf`</span> data are just like columns in a data frame. So if we want all the values in one column, we can just select that column in the same way as a data frame:</span>
+<span id="cb68-252"><a href="#cb68-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-255"><a href="#cb68-255" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-256"><a href="#cb68-256" aria-hidden="true" tabindex="-1"></a>lgas<span class="sc">$</span>lga</span>
+<span id="cb68-257"><a href="#cb68-257" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-258"><a href="#cb68-258" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-261"><a href="#cb68-261" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-262"><a href="#cb68-262" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lgas)</span>
-<span id="cb68-263"><a href="#cb68-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-264"><a href="#cb68-264" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-265"><a href="#cb68-265" aria-hidden="true" tabindex="-1"></a>Looks like Queensland! We got one map for each field (column). If we want a map of just one field we can select only the field we want:</span>
+<span id="cb68-259"><a href="#cb68-259" aria-hidden="true" tabindex="-1"></a>Let&#39;s plot the data to see what we have:</span>
+<span id="cb68-260"><a href="#cb68-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-263"><a href="#cb68-263" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-264"><a href="#cb68-264" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lgas)</span>
+<span id="cb68-265"><a href="#cb68-265" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-266"><a href="#cb68-266" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-269"><a href="#cb68-269" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-270"><a href="#cb68-270" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lgas[, <span class="st">&quot;lga&quot;</span>], <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb68-271"><a href="#cb68-271" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-272"><a href="#cb68-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-273"><a href="#cb68-273" aria-hidden="true" tabindex="-1"></a>We added axes using the <span class="in">`axes = TRUE`</span> argument. </span>
+<span id="cb68-267"><a href="#cb68-267" aria-hidden="true" tabindex="-1"></a>Looks like Queensland! We got one map for each field (column). If we want a map of just one field we can select only the field we want:</span>
+<span id="cb68-268"><a href="#cb68-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-271"><a href="#cb68-271" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-272"><a href="#cb68-272" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lgas[, <span class="st">&quot;lga&quot;</span>], <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb68-273"><a href="#cb68-273" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-274"><a href="#cb68-274" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-275"><a href="#cb68-275" aria-hidden="true" tabindex="-1"></a><span class="fu">### Subsetting and merging</span></span>
+<span id="cb68-275"><a href="#cb68-275" aria-hidden="true" tabindex="-1"></a>We added axes using the <span class="in">`axes = TRUE`</span> argument. </span>
 <span id="cb68-276"><a href="#cb68-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-277"><a href="#cb68-277" aria-hidden="true" tabindex="-1"></a>Our data has local government areas (LGAs) for the whole of Queensland, but we just want a polygon of south-east Queensland (SEQ). How do we get that?</span>
+<span id="cb68-277"><a href="#cb68-277" aria-hidden="true" tabindex="-1"></a><span class="fu">### Subsetting and merging</span></span>
 <span id="cb68-278"><a href="#cb68-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-279"><a href="#cb68-279" aria-hidden="true" tabindex="-1"></a>First, we make a vector containing the names of all the LGAs in SEQ:</span>
+<span id="cb68-279"><a href="#cb68-279" aria-hidden="true" tabindex="-1"></a>Our data has local government areas (LGAs) for the whole of Queensland, but we just want a polygon of south-east Queensland (SEQ). How do we get that?</span>
 <span id="cb68-280"><a href="#cb68-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-283"><a href="#cb68-283" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-284"><a href="#cb68-284" aria-hidden="true" tabindex="-1"></a>seq_lga_names <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb68-285"><a href="#cb68-285" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Brisbane City&quot;</span>,</span>
-<span id="cb68-286"><a href="#cb68-286" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Moreton Bay City&quot;</span>,</span>
-<span id="cb68-287"><a href="#cb68-287" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Logan City&quot;</span>,</span>
-<span id="cb68-288"><a href="#cb68-288" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Ipswich City&quot;</span>,</span>
-<span id="cb68-289"><a href="#cb68-289" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Redland City&quot;</span>,</span>
-<span id="cb68-290"><a href="#cb68-290" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Scenic Rim Regional&quot;</span>,</span>
-<span id="cb68-291"><a href="#cb68-291" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Somerset Regional&quot;</span>,</span>
-<span id="cb68-292"><a href="#cb68-292" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Lockyer Valley Regional&quot;</span>,</span>
-<span id="cb68-293"><a href="#cb68-293" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Gold Coast City&quot;</span>,</span>
-<span id="cb68-294"><a href="#cb68-294" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Sunshine Coast Regional&quot;</span>,</span>
-<span id="cb68-295"><a href="#cb68-295" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Toowoomba Regional&quot;</span>,</span>
-<span id="cb68-296"><a href="#cb68-296" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Noosa Shire&quot;</span></span>
-<span id="cb68-297"><a href="#cb68-297" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb68-298"><a href="#cb68-298" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-299"><a href="#cb68-299" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-300"><a href="#cb68-300" aria-hidden="true" tabindex="-1"></a>Now we can subset our LGAs spatial data for just these LGAs:</span>
+<span id="cb68-281"><a href="#cb68-281" aria-hidden="true" tabindex="-1"></a>First, we make a vector containing the names of all the LGAs in SEQ:</span>
+<span id="cb68-282"><a href="#cb68-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-285"><a href="#cb68-285" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-286"><a href="#cb68-286" aria-hidden="true" tabindex="-1"></a>seq_lga_names <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb68-287"><a href="#cb68-287" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Brisbane City&quot;</span>,</span>
+<span id="cb68-288"><a href="#cb68-288" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Moreton Bay City&quot;</span>,</span>
+<span id="cb68-289"><a href="#cb68-289" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Logan City&quot;</span>,</span>
+<span id="cb68-290"><a href="#cb68-290" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Ipswich City&quot;</span>,</span>
+<span id="cb68-291"><a href="#cb68-291" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Redland City&quot;</span>,</span>
+<span id="cb68-292"><a href="#cb68-292" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Scenic Rim Regional&quot;</span>,</span>
+<span id="cb68-293"><a href="#cb68-293" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Somerset Regional&quot;</span>,</span>
+<span id="cb68-294"><a href="#cb68-294" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Lockyer Valley Regional&quot;</span>,</span>
+<span id="cb68-295"><a href="#cb68-295" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Gold Coast City&quot;</span>,</span>
+<span id="cb68-296"><a href="#cb68-296" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Sunshine Coast Regional&quot;</span>,</span>
+<span id="cb68-297"><a href="#cb68-297" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Toowoomba Regional&quot;</span>,</span>
+<span id="cb68-298"><a href="#cb68-298" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Noosa Shire&quot;</span></span>
+<span id="cb68-299"><a href="#cb68-299" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb68-300"><a href="#cb68-300" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-301"><a href="#cb68-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-304"><a href="#cb68-304" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-305"><a href="#cb68-305" aria-hidden="true" tabindex="-1"></a>lgas_seq <span class="ot">&lt;-</span> lgas <span class="sc">|&gt;</span> </span>
-<span id="cb68-306"><a href="#cb68-306" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(lga <span class="sc">%in%</span> seq_lga_names) <span class="co">#select only the rows of data with LGA names that we have listed</span></span>
-<span id="cb68-307"><a href="#cb68-307" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-308"><a href="#cb68-308" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lgas_seq[, <span class="st">&quot;lga&quot;</span>])</span>
-<span id="cb68-309"><a href="#cb68-309" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-310"><a href="#cb68-310" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-311"><a href="#cb68-311" aria-hidden="true" tabindex="-1"></a>Great! We&#39;ve got only the LGAs in SEQ. But at the moment we have many polygons that make up SEQ:</span>
+<span id="cb68-302"><a href="#cb68-302" aria-hidden="true" tabindex="-1"></a>Now we can subset our LGAs spatial data for just these LGAs:</span>
+<span id="cb68-303"><a href="#cb68-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-306"><a href="#cb68-306" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-307"><a href="#cb68-307" aria-hidden="true" tabindex="-1"></a>lgas_seq <span class="ot">&lt;-</span> lgas <span class="sc">|&gt;</span> </span>
+<span id="cb68-308"><a href="#cb68-308" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(lga <span class="sc">%in%</span> seq_lga_names) <span class="co">#select only the rows of data with LGA names that we have listed</span></span>
+<span id="cb68-309"><a href="#cb68-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-310"><a href="#cb68-310" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lgas_seq[, <span class="st">&quot;lga&quot;</span>])</span>
+<span id="cb68-311"><a href="#cb68-311" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-312"><a href="#cb68-312" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-315"><a href="#cb68-315" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-316"><a href="#cb68-316" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(lgas_seq)</span>
-<span id="cb68-317"><a href="#cb68-317" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-318"><a href="#cb68-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-319"><a href="#cb68-319" aria-hidden="true" tabindex="-1"></a>How do we get just one polygon that is the boundary of the area? We use <span class="in">`st_union()`</span>:</span>
+<span id="cb68-313"><a href="#cb68-313" aria-hidden="true" tabindex="-1"></a>Great! We&#39;ve got only the LGAs in SEQ. But at the moment we have many polygons that make up SEQ:</span>
+<span id="cb68-314"><a href="#cb68-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-317"><a href="#cb68-317" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-318"><a href="#cb68-318" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(lgas_seq)</span>
+<span id="cb68-319"><a href="#cb68-319" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-320"><a href="#cb68-320" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-323"><a href="#cb68-323" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-324"><a href="#cb68-324" aria-hidden="true" tabindex="-1"></a>seq_boundary <span class="ot">&lt;-</span> <span class="fu">st_union</span>(lgas_seq)</span>
-<span id="cb68-325"><a href="#cb68-325" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-326"><a href="#cb68-326" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(seq_boundary)</span>
-<span id="cb68-327"><a href="#cb68-327" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-328"><a href="#cb68-328" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-329"><a href="#cb68-329" aria-hidden="true" tabindex="-1"></a>This merges all our polygons into one polygon. Note that we lose all the fields when we do this:</span>
+<span id="cb68-321"><a href="#cb68-321" aria-hidden="true" tabindex="-1"></a>How do we get just one polygon that is the boundary of the area? We use <span class="in">`st_union()`</span>:</span>
+<span id="cb68-322"><a href="#cb68-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-325"><a href="#cb68-325" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-326"><a href="#cb68-326" aria-hidden="true" tabindex="-1"></a>seq_boundary <span class="ot">&lt;-</span> <span class="fu">st_union</span>(lgas_seq)</span>
+<span id="cb68-327"><a href="#cb68-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-328"><a href="#cb68-328" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(seq_boundary)</span>
+<span id="cb68-329"><a href="#cb68-329" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-330"><a href="#cb68-330" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-333"><a href="#cb68-333" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-334"><a href="#cb68-334" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(seq_boundary)</span>
-<span id="cb68-335"><a href="#cb68-335" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-336"><a href="#cb68-336" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-337"><a href="#cb68-337" aria-hidden="true" tabindex="-1"></a><span class="fu">## Rasters</span></span>
+<span id="cb68-331"><a href="#cb68-331" aria-hidden="true" tabindex="-1"></a>This merges all our polygons into one polygon. Note that we lose all the fields when we do this:</span>
+<span id="cb68-332"><a href="#cb68-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-335"><a href="#cb68-335" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-336"><a href="#cb68-336" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(seq_boundary)</span>
+<span id="cb68-337"><a href="#cb68-337" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-338"><a href="#cb68-338" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-339"><a href="#cb68-339" aria-hidden="true" tabindex="-1"></a><span class="fu">### Loading and plotting</span></span>
+<span id="cb68-339"><a href="#cb68-339" aria-hidden="true" tabindex="-1"></a><span class="fu">## Rasters</span></span>
 <span id="cb68-340"><a href="#cb68-340" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-341"><a href="#cb68-341" aria-hidden="true" tabindex="-1"></a>We now want to get some climate data for our south-east Queensland study area that we will use in a later session to do species modelling. Climate data is normally stored in raster format, so we will be using the <span class="in">`terra`</span> package to manipulate the data. Example climate data is already in the <span class="in">`data`</span> folder, and you will learn about how to create these data in the following session. For now, let&#39;s load one of the climate rasters and have a look at it:</span>
+<span id="cb68-341"><a href="#cb68-341" aria-hidden="true" tabindex="-1"></a><span class="fu">### Loading and plotting</span></span>
 <span id="cb68-342"><a href="#cb68-342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-345"><a href="#cb68-345" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-346"><a href="#cb68-346" aria-hidden="true" tabindex="-1"></a>climate1 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/Current_climate_QLD/bioclim_01.tif&quot;</span>)</span>
-<span id="cb68-347"><a href="#cb68-347" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-348"><a href="#cb68-348" aria-hidden="true" tabindex="-1"></a>climate1</span>
-<span id="cb68-349"><a href="#cb68-349" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-350"><a href="#cb68-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-351"><a href="#cb68-351" aria-hidden="true" tabindex="-1"></a>It is a raster with 0.05 degree resolution: we know it is in degrees because it is unprojected, in the EPSG 4326 coordinate reference system. Let&#39;s plot the data:</span>
+<span id="cb68-343"><a href="#cb68-343" aria-hidden="true" tabindex="-1"></a>We now want to get some climate data for our south-east Queensland study area that we will use in a later session to do species modelling. Climate data is normally stored in raster format, so we will be using the <span class="in">`terra`</span> package to manipulate the data. Example climate data is already in the <span class="in">`data`</span> folder, and you will learn about how to create these data in the following session. For now, let&#39;s load one of the climate rasters and have a look at it:</span>
+<span id="cb68-344"><a href="#cb68-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-347"><a href="#cb68-347" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-348"><a href="#cb68-348" aria-hidden="true" tabindex="-1"></a>climate1 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/Current_climate_QLD/bioclim_01.tif&quot;</span>)</span>
+<span id="cb68-349"><a href="#cb68-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-350"><a href="#cb68-350" aria-hidden="true" tabindex="-1"></a>climate1</span>
+<span id="cb68-351"><a href="#cb68-351" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-352"><a href="#cb68-352" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-355"><a href="#cb68-355" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-356"><a href="#cb68-356" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate1)</span>
-<span id="cb68-357"><a href="#cb68-357" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-358"><a href="#cb68-358" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-359"><a href="#cb68-359" aria-hidden="true" tabindex="-1"></a>We can see that the data covers the whole of Australia. What type of data do you think this is?</span>
+<span id="cb68-353"><a href="#cb68-353" aria-hidden="true" tabindex="-1"></a>It is a raster with 0.05 degree resolution: we know it is in degrees because it is unprojected, in the EPSG 4326 coordinate reference system. Let&#39;s plot the data:</span>
+<span id="cb68-354"><a href="#cb68-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-357"><a href="#cb68-357" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-358"><a href="#cb68-358" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate1)</span>
+<span id="cb68-359"><a href="#cb68-359" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-360"><a href="#cb68-360" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-361"><a href="#cb68-361" aria-hidden="true" tabindex="-1"></a><span class="fu">### Cropping and masking</span></span>
+<span id="cb68-361"><a href="#cb68-361" aria-hidden="true" tabindex="-1"></a>We can see that the data covers the whole of Australia. What type of data do you think this is?</span>
 <span id="cb68-362"><a href="#cb68-362" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-363"><a href="#cb68-363" aria-hidden="true" tabindex="-1"></a>The raster data we have at the moment is for a much larger area than just SEQ. Let&#39;s plot our raster and SEQ polygon together to see:</span>
+<span id="cb68-363"><a href="#cb68-363" aria-hidden="true" tabindex="-1"></a><span class="fu">### Cropping and masking</span></span>
 <span id="cb68-364"><a href="#cb68-364" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-367"><a href="#cb68-367" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-368"><a href="#cb68-368" aria-hidden="true" tabindex="-1"></a>seq_vect <span class="ot">&lt;-</span> <span class="fu">vect</span>(seq_boundary) <span class="co">#we need to convert our sf polygon into a SpatVector, which is the vector format that the terra package uses</span></span>
-<span id="cb68-369"><a href="#cb68-369" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-370"><a href="#cb68-370" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate1) </span>
-<span id="cb68-371"><a href="#cb68-371" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect) <span class="co">#adds the SEQ polygon as lines on top of the raster</span></span>
-<span id="cb68-372"><a href="#cb68-372" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-373"><a href="#cb68-373" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-374"><a href="#cb68-374" aria-hidden="true" tabindex="-1"></a>To get only SEQ data, we need to crop and mask the raster data using our SEQ polygon. </span>
+<span id="cb68-365"><a href="#cb68-365" aria-hidden="true" tabindex="-1"></a>The raster data we have at the moment is for a much larger area than just SEQ. Let&#39;s plot our raster and SEQ polygon together to see:</span>
+<span id="cb68-366"><a href="#cb68-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-369"><a href="#cb68-369" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-370"><a href="#cb68-370" aria-hidden="true" tabindex="-1"></a>seq_vect <span class="ot">&lt;-</span> <span class="fu">vect</span>(seq_boundary) <span class="co">#we need to convert our sf polygon into a SpatVector, which is the vector format that the terra package uses</span></span>
+<span id="cb68-371"><a href="#cb68-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-372"><a href="#cb68-372" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate1) </span>
+<span id="cb68-373"><a href="#cb68-373" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect) <span class="co">#adds the SEQ polygon as lines on top of the raster</span></span>
+<span id="cb68-374"><a href="#cb68-374" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-375"><a href="#cb68-375" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-376"><a href="#cb68-376" aria-hidden="true" tabindex="-1"></a>Cropping means that we keep only the data inside the **extent** of the vector we are using. Mask means that all the data outside the vector is set to NA or some other value we specify. Lets have a look how this works.</span>
+<span id="cb68-376"><a href="#cb68-376" aria-hidden="true" tabindex="-1"></a>To get only SEQ data, we need to crop and mask the raster data using our SEQ polygon. </span>
 <span id="cb68-377"><a href="#cb68-377" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-378"><a href="#cb68-378" aria-hidden="true" tabindex="-1"></a>First lets have a look at the extent of the SEQ polygon. We can get the extent of a raster or vector using <span class="in">`ext()`</span>. We need to convert this into a <span class="in">`SpatVector`</span> object for plotting using <span class="in">`vect()`</span>. We only need to do this for plotting; when we crop, we can just use the SEQ polygon as the input.</span>
+<span id="cb68-378"><a href="#cb68-378" aria-hidden="true" tabindex="-1"></a>Cropping means that we keep only the data inside the **extent** of the vector we are using. Mask means that all the data outside the vector is set to NA or some other value we specify. Lets have a look how this works.</span>
 <span id="cb68-379"><a href="#cb68-379" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-380"><a href="#cb68-380" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-383"><a href="#cb68-383" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-384"><a href="#cb68-384" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Cropping means we remove everything outside the extent (blue box) of our polygon. Masking sets all values outside our polygon to NA.&quot;</span></span>
-<span id="cb68-385"><a href="#cb68-385" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-386"><a href="#cb68-386" aria-hidden="true" tabindex="-1"></a>seq_vect_extent <span class="ot">&lt;-</span> <span class="fu">ext</span>(seq_vect) <span class="sc">|&gt;</span> </span>
-<span id="cb68-387"><a href="#cb68-387" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vect</span>()</span>
-<span id="cb68-388"><a href="#cb68-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-389"><a href="#cb68-389" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate1)</span>
-<span id="cb68-390"><a href="#cb68-390" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect)</span>
-<span id="cb68-391"><a href="#cb68-391" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect_extent, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb68-392"><a href="#cb68-392" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-393"><a href="#cb68-393" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-394"><a href="#cb68-394" aria-hidden="true" tabindex="-1"></a>So when we crop, we get only the area within the blue box.</span>
+<span id="cb68-380"><a href="#cb68-380" aria-hidden="true" tabindex="-1"></a>First lets have a look at the extent of the SEQ polygon. We can get the extent of a raster or vector using <span class="in">`ext()`</span>. We need to convert this into a <span class="in">`SpatVector`</span> object for plotting using <span class="in">`vect()`</span>. We only need to do this for plotting; when we crop, we can just use the SEQ polygon as the input.</span>
+<span id="cb68-381"><a href="#cb68-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-382"><a href="#cb68-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-385"><a href="#cb68-385" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-386"><a href="#cb68-386" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Cropping means we remove everything outside the extent (blue box) of our polygon. Masking sets all values outside our polygon to NA.&quot;</span></span>
+<span id="cb68-387"><a href="#cb68-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-388"><a href="#cb68-388" aria-hidden="true" tabindex="-1"></a>seq_vect_extent <span class="ot">&lt;-</span> <span class="fu">ext</span>(seq_vect) <span class="sc">|&gt;</span> </span>
+<span id="cb68-389"><a href="#cb68-389" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vect</span>()</span>
+<span id="cb68-390"><a href="#cb68-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-391"><a href="#cb68-391" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate1)</span>
+<span id="cb68-392"><a href="#cb68-392" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect)</span>
+<span id="cb68-393"><a href="#cb68-393" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect_extent, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb68-394"><a href="#cb68-394" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-395"><a href="#cb68-395" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-396"><a href="#cb68-396" aria-hidden="true" tabindex="-1"></a>We crop using the <span class="in">`crop()`</span> function, using the raster we want to crop as the first argument and the vector we are cropping as the second.</span>
+<span id="cb68-396"><a href="#cb68-396" aria-hidden="true" tabindex="-1"></a>So when we crop, we get only the area within the blue box.</span>
 <span id="cb68-397"><a href="#cb68-397" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-400"><a href="#cb68-400" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-401"><a href="#cb68-401" aria-hidden="true" tabindex="-1"></a><span class="co">#crop</span></span>
-<span id="cb68-402"><a href="#cb68-402" aria-hidden="true" tabindex="-1"></a>climate1_cropped <span class="ot">&lt;-</span> <span class="fu">crop</span>(climate1, seq_vect)</span>
-<span id="cb68-403"><a href="#cb68-403" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-404"><a href="#cb68-404" aria-hidden="true" tabindex="-1"></a><span class="co">#plot</span></span>
-<span id="cb68-405"><a href="#cb68-405" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate1_cropped)</span>
-<span id="cb68-406"><a href="#cb68-406" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect)</span>
-<span id="cb68-407"><a href="#cb68-407" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-408"><a href="#cb68-408" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-409"><a href="#cb68-409" aria-hidden="true" tabindex="-1"></a>Now we have cropped our raster, we can mask it so that we only have values for the area within the SEQ boundary. We do this using <span class="in">`mask`</span>:</span>
+<span id="cb68-398"><a href="#cb68-398" aria-hidden="true" tabindex="-1"></a>We crop using the <span class="in">`crop()`</span> function, using the raster we want to crop as the first argument and the vector we are cropping as the second.</span>
+<span id="cb68-399"><a href="#cb68-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-402"><a href="#cb68-402" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-403"><a href="#cb68-403" aria-hidden="true" tabindex="-1"></a><span class="co">#crop</span></span>
+<span id="cb68-404"><a href="#cb68-404" aria-hidden="true" tabindex="-1"></a>climate1_cropped <span class="ot">&lt;-</span> <span class="fu">crop</span>(climate1, seq_vect)</span>
+<span id="cb68-405"><a href="#cb68-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-406"><a href="#cb68-406" aria-hidden="true" tabindex="-1"></a><span class="co">#plot</span></span>
+<span id="cb68-407"><a href="#cb68-407" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate1_cropped)</span>
+<span id="cb68-408"><a href="#cb68-408" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect)</span>
+<span id="cb68-409"><a href="#cb68-409" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-410"><a href="#cb68-410" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-413"><a href="#cb68-413" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-414"><a href="#cb68-414" aria-hidden="true" tabindex="-1"></a><span class="co">#mask</span></span>
-<span id="cb68-415"><a href="#cb68-415" aria-hidden="true" tabindex="-1"></a>climate_seq <span class="ot">&lt;-</span> <span class="fu">mask</span>(climate1_cropped, seq_vect)</span>
-<span id="cb68-416"><a href="#cb68-416" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-417"><a href="#cb68-417" aria-hidden="true" tabindex="-1"></a><span class="co">#plot</span></span>
-<span id="cb68-418"><a href="#cb68-418" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate_seq)</span>
-<span id="cb68-419"><a href="#cb68-419" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect)</span>
-<span id="cb68-420"><a href="#cb68-420" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-421"><a href="#cb68-421" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-422"><a href="#cb68-422" aria-hidden="true" tabindex="-1"></a>Now we only see raster values for cells that are within the SEQ boundary. But remember that the areas that are white, still have values, they are just <span class="in">`NA`</span> values. We can confirm this by plotting the <span class="in">`NA`</span> cells in grey (or any other colour):</span>
+<span id="cb68-411"><a href="#cb68-411" aria-hidden="true" tabindex="-1"></a>Now we have cropped our raster, we can mask it so that we only have values for the area within the SEQ boundary. We do this using <span class="in">`mask`</span>:</span>
+<span id="cb68-412"><a href="#cb68-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-415"><a href="#cb68-415" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-416"><a href="#cb68-416" aria-hidden="true" tabindex="-1"></a><span class="co">#mask</span></span>
+<span id="cb68-417"><a href="#cb68-417" aria-hidden="true" tabindex="-1"></a>climate_seq <span class="ot">&lt;-</span> <span class="fu">mask</span>(climate1_cropped, seq_vect)</span>
+<span id="cb68-418"><a href="#cb68-418" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-419"><a href="#cb68-419" aria-hidden="true" tabindex="-1"></a><span class="co">#plot</span></span>
+<span id="cb68-420"><a href="#cb68-420" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate_seq)</span>
+<span id="cb68-421"><a href="#cb68-421" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect)</span>
+<span id="cb68-422"><a href="#cb68-422" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-423"><a href="#cb68-423" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-426"><a href="#cb68-426" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-427"><a href="#cb68-427" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate_seq, <span class="at">colNA =</span> <span class="st">&quot;grey&quot;</span>)</span>
-<span id="cb68-428"><a href="#cb68-428" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect)</span>
-<span id="cb68-429"><a href="#cb68-429" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-430"><a href="#cb68-430" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-431"><a href="#cb68-431" aria-hidden="true" tabindex="-1"></a>Often we want to <span class="in">`crop`</span> and <span class="in">`mask`</span> one after the other, and you can do this in one command using <span class="in">`crop(climate1_projected, seq_vect, mask = TRUE)`</span>. </span>
+<span id="cb68-424"><a href="#cb68-424" aria-hidden="true" tabindex="-1"></a>Now we only see raster values for cells that are within the SEQ boundary. But remember that the areas that are white, still have values, they are just <span class="in">`NA`</span> values. We can confirm this by plotting the <span class="in">`NA`</span> cells in grey (or any other colour):</span>
+<span id="cb68-425"><a href="#cb68-425" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-428"><a href="#cb68-428" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-429"><a href="#cb68-429" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate_seq, <span class="at">colNA =</span> <span class="st">&quot;grey&quot;</span>)</span>
+<span id="cb68-430"><a href="#cb68-430" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect)</span>
+<span id="cb68-431"><a href="#cb68-431" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-432"><a href="#cb68-432" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-433"><a href="#cb68-433" aria-hidden="true" tabindex="-1"></a>For reference, here is a figure comparing what <span class="in">`crop`</span>, <span class="in">`mask`</span> and <span class="in">`crop(mask = TRUE)`</span> do:</span>
+<span id="cb68-433"><a href="#cb68-433" aria-hidden="true" tabindex="-1"></a>Often we want to <span class="in">`crop`</span> and <span class="in">`mask`</span> one after the other, and you can do this in one command using <span class="in">`crop(climate1_projected, seq_vect, mask = TRUE)`</span>. </span>
 <span id="cb68-434"><a href="#cb68-434" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-437"><a href="#cb68-437" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-438"><a href="#cb68-438" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb68-439"><a href="#cb68-439" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-440"><a href="#cb68-440" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb68-435"><a href="#cb68-435" aria-hidden="true" tabindex="-1"></a>For reference, here is a figure comparing what <span class="in">`crop`</span>, <span class="in">`mask`</span> and <span class="in">`crop(mask = TRUE)`</span> do:</span>
+<span id="cb68-436"><a href="#cb68-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-439"><a href="#cb68-439" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-440"><a href="#cb68-440" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
 <span id="cb68-441"><a href="#cb68-441" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-442"><a href="#cb68-442" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate1, <span class="at">main =</span> <span class="st">&quot;Original raster&quot;</span>)</span>
-<span id="cb68-443"><a href="#cb68-443" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect)</span>
-<span id="cb68-444"><a href="#cb68-444" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-445"><a href="#cb68-445" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate1_cropped, <span class="at">main =</span> <span class="st">&quot;Cropped&quot;</span>)</span>
-<span id="cb68-446"><a href="#cb68-446" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect)</span>
-<span id="cb68-447"><a href="#cb68-447" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-448"><a href="#cb68-448" aria-hidden="true" tabindex="-1"></a>climate1 <span class="sc">|&gt;</span></span>
-<span id="cb68-449"><a href="#cb68-449" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mask</span>(seq_vect) <span class="sc">|&gt;</span></span>
-<span id="cb68-450"><a href="#cb68-450" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="at">main =</span> <span class="st">&quot;Masked&quot;</span>)</span>
-<span id="cb68-451"><a href="#cb68-451" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect)</span>
-<span id="cb68-452"><a href="#cb68-452" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-453"><a href="#cb68-453" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">crop</span>(climate1, seq_vect, <span class="at">mask =</span> <span class="cn">TRUE</span>), <span class="at">main =</span> <span class="st">&quot;Cropped and masked&quot;</span>)</span>
-<span id="cb68-454"><a href="#cb68-454" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect)</span>
-<span id="cb68-455"><a href="#cb68-455" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-456"><a href="#cb68-456" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-459"><a href="#cb68-459" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-460"><a href="#cb68-460" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb68-461"><a href="#cb68-461" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-462"><a href="#cb68-462" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb68-463"><a href="#cb68-463" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-464"><a href="#cb68-464" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-465"><a href="#cb68-465" aria-hidden="true" tabindex="-1"></a>Why not just mask rather than crop and mask? As we see in the figure above, this would mean we have a lot of area we are not interested in and even though most of those cells would be <span class="in">`NA`</span> they take up space in our raster, so it is not efficient.</span>
+<span id="cb68-442"><a href="#cb68-442" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb68-443"><a href="#cb68-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-444"><a href="#cb68-444" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate1, <span class="at">main =</span> <span class="st">&quot;Original raster&quot;</span>)</span>
+<span id="cb68-445"><a href="#cb68-445" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect)</span>
+<span id="cb68-446"><a href="#cb68-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-447"><a href="#cb68-447" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate1_cropped, <span class="at">main =</span> <span class="st">&quot;Cropped&quot;</span>)</span>
+<span id="cb68-448"><a href="#cb68-448" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect)</span>
+<span id="cb68-449"><a href="#cb68-449" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-450"><a href="#cb68-450" aria-hidden="true" tabindex="-1"></a>climate1 <span class="sc">|&gt;</span></span>
+<span id="cb68-451"><a href="#cb68-451" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mask</span>(seq_vect) <span class="sc">|&gt;</span></span>
+<span id="cb68-452"><a href="#cb68-452" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="at">main =</span> <span class="st">&quot;Masked&quot;</span>)</span>
+<span id="cb68-453"><a href="#cb68-453" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect)</span>
+<span id="cb68-454"><a href="#cb68-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-455"><a href="#cb68-455" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">crop</span>(climate1, seq_vect, <span class="at">mask =</span> <span class="cn">TRUE</span>), <span class="at">main =</span> <span class="st">&quot;Cropped and masked&quot;</span>)</span>
+<span id="cb68-456"><a href="#cb68-456" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_vect)</span>
+<span id="cb68-457"><a href="#cb68-457" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb68-458"><a href="#cb68-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-461"><a href="#cb68-461" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-462"><a href="#cb68-462" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb68-463"><a href="#cb68-463" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-464"><a href="#cb68-464" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb68-465"><a href="#cb68-465" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-466"><a href="#cb68-466" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-467"><a href="#cb68-467" aria-hidden="true" tabindex="-1"></a><span class="fu">### Raster values</span></span>
+<span id="cb68-467"><a href="#cb68-467" aria-hidden="true" tabindex="-1"></a>Why not just mask rather than crop and mask? As we see in the figure above, this would mean we have a lot of area we are not interested in and even though most of those cells would be <span class="in">`NA`</span> they take up space in our raster, so it is not efficient.</span>
 <span id="cb68-468"><a href="#cb68-468" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-469"><a href="#cb68-469" aria-hidden="true" tabindex="-1"></a>Remember that each cell in our raster has a value. We might want to examine some summaries of these raster values. We can get a histogram of all the values in a raster using the <span class="in">`hist()`</span> function:</span>
+<span id="cb68-469"><a href="#cb68-469" aria-hidden="true" tabindex="-1"></a><span class="fu">### Raster values</span></span>
 <span id="cb68-470"><a href="#cb68-470" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-473"><a href="#cb68-473" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-474"><a href="#cb68-474" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(climate_seq)</span>
-<span id="cb68-475"><a href="#cb68-475" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-476"><a href="#cb68-476" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-477"><a href="#cb68-477" aria-hidden="true" tabindex="-1"></a>There is a tail of low values, which are mostly from the south-east of Australia (Tasmania is chilly!). What is the mean value for the whole of Australia?</span>
+<span id="cb68-471"><a href="#cb68-471" aria-hidden="true" tabindex="-1"></a>Remember that each cell in our raster has a value. We might want to examine some summaries of these raster values. We can get a histogram of all the values in a raster using the <span class="in">`hist()`</span> function:</span>
+<span id="cb68-472"><a href="#cb68-472" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-475"><a href="#cb68-475" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-476"><a href="#cb68-476" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(climate_seq)</span>
+<span id="cb68-477"><a href="#cb68-477" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-478"><a href="#cb68-478" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-481"><a href="#cb68-481" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-482"><a href="#cb68-482" aria-hidden="true" tabindex="-1"></a><span class="fu">global</span>(climate_seq, <span class="st">&quot;mean&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb68-483"><a href="#cb68-483" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-484"><a href="#cb68-484" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-485"><a href="#cb68-485" aria-hidden="true" tabindex="-1"></a>We can also get a statistical summary of the raster values just by using the <span class="in">`summary()`</span> function:</span>
+<span id="cb68-479"><a href="#cb68-479" aria-hidden="true" tabindex="-1"></a>There is a tail of low values, which are mostly from the south-east of Australia (Tasmania is chilly!). What is the mean value for the whole of Australia?</span>
+<span id="cb68-480"><a href="#cb68-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-483"><a href="#cb68-483" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-484"><a href="#cb68-484" aria-hidden="true" tabindex="-1"></a><span class="fu">global</span>(climate_seq, <span class="st">&quot;mean&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb68-485"><a href="#cb68-485" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-486"><a href="#cb68-486" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-489"><a href="#cb68-489" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-490"><a href="#cb68-490" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(climate_seq)</span>
-<span id="cb68-491"><a href="#cb68-491" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-492"><a href="#cb68-492" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-493"><a href="#cb68-493" aria-hidden="true" tabindex="-1"></a><span class="fu">### Raster math</span></span>
+<span id="cb68-487"><a href="#cb68-487" aria-hidden="true" tabindex="-1"></a>We can also get a statistical summary of the raster values just by using the <span class="in">`summary()`</span> function:</span>
+<span id="cb68-488"><a href="#cb68-488" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-491"><a href="#cb68-491" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-492"><a href="#cb68-492" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(climate_seq)</span>
+<span id="cb68-493"><a href="#cb68-493" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-494"><a href="#cb68-494" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-495"><a href="#cb68-495" aria-hidden="true" tabindex="-1"></a>The great thing about rasters are you can do maths with them! For example, doing <span class="in">`climate1 + 1`</span> just adds one to each raster value, and doing <span class="in">`climate1*2`</span> multiplies each raster value by two.</span>
+<span id="cb68-495"><a href="#cb68-495" aria-hidden="true" tabindex="-1"></a><span class="fu">### Raster math</span></span>
 <span id="cb68-496"><a href="#cb68-496" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-497"><a href="#cb68-497" aria-hidden="true" tabindex="-1"></a>As an example, lets convert our temperature data into Fahrenheit for our confused colleagues from the U.S. The conversion from Celsius to Fahrenheit is: Fahrenheit = (Celsius * 1.8) + 32.</span>
+<span id="cb68-497"><a href="#cb68-497" aria-hidden="true" tabindex="-1"></a>The great thing about rasters are you can do maths with them! For example, doing <span class="in">`climate1 + 1`</span> just adds one to each raster value, and doing <span class="in">`climate1*2`</span> multiplies each raster value by two.</span>
 <span id="cb68-498"><a href="#cb68-498" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-501"><a href="#cb68-501" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-502"><a href="#cb68-502" aria-hidden="true" tabindex="-1"></a><span class="co">#do the conversion</span></span>
-<span id="cb68-503"><a href="#cb68-503" aria-hidden="true" tabindex="-1"></a>climate_seq_fahrenheit <span class="ot">&lt;-</span> (climate_seq<span class="sc">*</span><span class="fl">1.8</span>) <span class="sc">+</span> <span class="dv">32</span></span>
-<span id="cb68-504"><a href="#cb68-504" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-505"><a href="#cb68-505" aria-hidden="true" tabindex="-1"></a><span class="co">#plot our new raster</span></span>
-<span id="cb68-506"><a href="#cb68-506" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate_seq_fahrenheit)</span>
-<span id="cb68-507"><a href="#cb68-507" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-508"><a href="#cb68-508" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-509"><a href="#cb68-509" aria-hidden="true" tabindex="-1"></a><span class="fu">### Coordinate reference systems and projection</span></span>
+<span id="cb68-499"><a href="#cb68-499" aria-hidden="true" tabindex="-1"></a>As an example, lets convert our temperature data into Fahrenheit for our confused colleagues from the U.S. The conversion from Celsius to Fahrenheit is: Fahrenheit = (Celsius * 1.8) + 32.</span>
+<span id="cb68-500"><a href="#cb68-500" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-503"><a href="#cb68-503" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-504"><a href="#cb68-504" aria-hidden="true" tabindex="-1"></a><span class="co">#do the conversion</span></span>
+<span id="cb68-505"><a href="#cb68-505" aria-hidden="true" tabindex="-1"></a>climate_seq_fahrenheit <span class="ot">&lt;-</span> (climate_seq<span class="sc">*</span><span class="fl">1.8</span>) <span class="sc">+</span> <span class="dv">32</span></span>
+<span id="cb68-506"><a href="#cb68-506" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-507"><a href="#cb68-507" aria-hidden="true" tabindex="-1"></a><span class="co">#plot our new raster</span></span>
+<span id="cb68-508"><a href="#cb68-508" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate_seq_fahrenheit)</span>
+<span id="cb68-509"><a href="#cb68-509" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-510"><a href="#cb68-510" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-511"><a href="#cb68-511" aria-hidden="true" tabindex="-1"></a>Remember that the CRS of our data is WGS 84. What does this mean? We can get some more information using <span class="in">`st_crs()`</span>:</span>
+<span id="cb68-511"><a href="#cb68-511" aria-hidden="true" tabindex="-1"></a><span class="fu">### Coordinate reference systems and projection</span></span>
 <span id="cb68-512"><a href="#cb68-512" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-515"><a href="#cb68-515" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-516"><a href="#cb68-516" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(climate_seq)</span>
-<span id="cb68-517"><a href="#cb68-517" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-518"><a href="#cb68-518" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-519"><a href="#cb68-519" aria-hidden="true" tabindex="-1"></a>This is the well-known text (wkt) description of the CRS, which gives a lot of detail. Let&#39;s get a simpler version:</span>
+<span id="cb68-513"><a href="#cb68-513" aria-hidden="true" tabindex="-1"></a>Remember that the CRS of our data is WGS 84. What does this mean? We can get some more information using <span class="in">`st_crs()`</span>:</span>
+<span id="cb68-514"><a href="#cb68-514" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-517"><a href="#cb68-517" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-518"><a href="#cb68-518" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(climate_seq)</span>
+<span id="cb68-519"><a href="#cb68-519" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-520"><a href="#cb68-520" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-523"><a href="#cb68-523" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-524"><a href="#cb68-524" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(climate_seq, <span class="at">describe =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb68-525"><a href="#cb68-525" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-526"><a href="#cb68-526" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-527"><a href="#cb68-527" aria-hidden="true" tabindex="-1"></a>We often have to deal with spatial data that have different CRS&#39;s, which involves transforming the data from one CRS to another. But first, what is a CRS?</span>
+<span id="cb68-521"><a href="#cb68-521" aria-hidden="true" tabindex="-1"></a>This is the well-known text (wkt) description of the CRS, which gives a lot of detail. Let&#39;s get a simpler version:</span>
+<span id="cb68-522"><a href="#cb68-522" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-525"><a href="#cb68-525" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-526"><a href="#cb68-526" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(climate_seq, <span class="at">describe =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb68-527"><a href="#cb68-527" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-528"><a href="#cb68-528" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-529"><a href="#cb68-529" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Coordinate reference systems</span></span>
+<span id="cb68-529"><a href="#cb68-529" aria-hidden="true" tabindex="-1"></a>We often have to deal with spatial data that have different CRS&#39;s, which involves transforming the data from one CRS to another. But first, what is a CRS?</span>
 <span id="cb68-530"><a href="#cb68-530" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-531"><a href="#cb68-531" aria-hidden="true" tabindex="-1"></a>&lt;details&gt;</span>
-<span id="cb68-532"><a href="#cb68-532" aria-hidden="true" tabindex="-1"></a>&lt;summary&gt;Click here to expand this section&lt;/summary&gt;</span>
-<span id="cb68-533"><a href="#cb68-533" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-534"><a href="#cb68-534" aria-hidden="true" tabindex="-1"></a>If we want to know where things are in space, we need to use some kind of spatial reference. We can use our own arbitrary system, e.g. a sampling grid like the one shown in the photo below where we could define the location of each square relative to one of the corners. But normally we want to know where something is on Earth.</span>
+<span id="cb68-531"><a href="#cb68-531" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Coordinate reference systems</span></span>
+<span id="cb68-532"><a href="#cb68-532" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-533"><a href="#cb68-533" aria-hidden="true" tabindex="-1"></a>&lt;details&gt;</span>
+<span id="cb68-534"><a href="#cb68-534" aria-hidden="true" tabindex="-1"></a>&lt;summary&gt;Click here to expand this section&lt;/summary&gt;</span>
 <span id="cb68-535"><a href="#cb68-535" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-538"><a href="#cb68-538" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-539"><a href="#cb68-539" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb68-540"><a href="#cb68-540" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-541"><a href="#cb68-541" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;figs/quadrat.jpg&quot;</span>)</span>
-<span id="cb68-542"><a href="#cb68-542" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-543"><a href="#cb68-543" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-544"><a href="#cb68-544" aria-hidden="true" tabindex="-1"></a>There are two types of coordinate systems we can use to represent locations on Earth:</span>
+<span id="cb68-536"><a href="#cb68-536" aria-hidden="true" tabindex="-1"></a>If we want to know where things are in space, we need to use some kind of spatial reference. We can use our own arbitrary system, e.g. a sampling grid like the one shown in the photo below where we could define the location of each square relative to one of the corners. But normally we want to know where something is on Earth.</span>
+<span id="cb68-537"><a href="#cb68-537" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-540"><a href="#cb68-540" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-541"><a href="#cb68-541" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb68-542"><a href="#cb68-542" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-543"><a href="#cb68-543" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;figs/quadrat.jpg&quot;</span>)</span>
+<span id="cb68-544"><a href="#cb68-544" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-545"><a href="#cb68-545" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-546"><a href="#cb68-546" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Geographic coordinate systems (GCS): uses a 3-D surface (e.g. globe) to define locations on the Earth using longitude and latitude. The 3-D surface is normally an ellipsoid which approximates the Earth but cannot be exact since the Earth is not a smooth surface. This approximation of the Earth is called a datum and can be aligned with the true Earth (the geoid) in different ways depending on whether we are trying to get a good approximation at some particular location (local datum), e.g. Brisbane, or best approximation across the whole Earth (geocentric datum). The figure below (sourced from <span class="co">[</span><span class="ot">here</span><span class="co">](https://mgimond.github.io/Spatial/chp09_0.html)</span>) shows examples of these datums.</span>
+<span id="cb68-546"><a href="#cb68-546" aria-hidden="true" tabindex="-1"></a>There are two types of coordinate systems we can use to represent locations on Earth:</span>
 <span id="cb68-547"><a href="#cb68-547" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-550"><a href="#cb68-550" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-551"><a href="#cb68-551" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb68-552"><a href="#cb68-552" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-553"><a href="#cb68-553" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;figs/datums.png&quot;</span>)</span>
-<span id="cb68-554"><a href="#cb68-554" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-555"><a href="#cb68-555" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-556"><a href="#cb68-556" aria-hidden="true" tabindex="-1"></a>A commonly used geocentric datum is World Geodetic Survey for 1984 (WGS84). This is almost synonymous with the commonly used coordinate reference system EPSG 4326, but EPSG 4326 defines the latitude and longitude coordinates used on the WGS84 ellipsoid (<span class="co">[</span><span class="ot">Ref</span><span class="co">](https://gis.stackexchange.com/questions/3334/difference-between-wgs84-and-epsg4326)</span>)</span>
+<span id="cb68-548"><a href="#cb68-548" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Geographic coordinate systems (GCS): uses a 3-D surface (e.g. globe) to define locations on the Earth using longitude and latitude. The 3-D surface is normally an ellipsoid which approximates the Earth but cannot be exact since the Earth is not a smooth surface. This approximation of the Earth is called a datum and can be aligned with the true Earth (the geoid) in different ways depending on whether we are trying to get a good approximation at some particular location (local datum), e.g. Brisbane, or best approximation across the whole Earth (geocentric datum). The figure below (sourced from <span class="co">[</span><span class="ot">here</span><span class="co">](https://mgimond.github.io/Spatial/chp09_0.html)</span>) shows examples of these datums.</span>
+<span id="cb68-549"><a href="#cb68-549" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-552"><a href="#cb68-552" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-553"><a href="#cb68-553" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb68-554"><a href="#cb68-554" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-555"><a href="#cb68-555" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;figs/datums.png&quot;</span>)</span>
+<span id="cb68-556"><a href="#cb68-556" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-557"><a href="#cb68-557" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-558"><a href="#cb68-558" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Projected coordinate system (projection): Unfortunately, we can&#39;t carry around globes all the time when we want to look at a map, and doing calculations, such as distance and area, in 3-D is much more difficult than 2-D. So we need a way of getting from our 3-D globe to a piece of paper (or for younger people, a screen). To do this we need to &#39;project&#39; from a GCS to a projected coordinate system, which is called projection because we can think of this as putting a light in the centre of a globe and the light shines through the globe projecting features onto a flat piece of paper. The figure below (from <span class="co">[</span><span class="ot">QGIS docs</span><span class="co">](https://docs.qgis.org/3.34/en/docs/gentle_gis_introduction/coordinate_reference_systems.html)</span>) illustrates this, showing the 3 projection families:</span>
+<span id="cb68-558"><a href="#cb68-558" aria-hidden="true" tabindex="-1"></a>A commonly used geocentric datum is World Geodetic Survey for 1984 (WGS84). This is almost synonymous with the commonly used coordinate reference system EPSG 4326, but EPSG 4326 defines the latitude and longitude coordinates used on the WGS84 ellipsoid (<span class="co">[</span><span class="ot">Ref</span><span class="co">](https://gis.stackexchange.com/questions/3334/difference-between-wgs84-and-epsg4326)</span>)</span>
 <span id="cb68-559"><a href="#cb68-559" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-562"><a href="#cb68-562" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-563"><a href="#cb68-563" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb68-564"><a href="#cb68-564" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;a) Cylindrical; b) conical, and; c) planar projecions&quot;</span></span>
-<span id="cb68-565"><a href="#cb68-565" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-566"><a href="#cb68-566" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;figs/projections_qgis_docs.png&quot;</span>)</span>
-<span id="cb68-567"><a href="#cb68-567" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-568"><a href="#cb68-568" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-569"><a href="#cb68-569" aria-hidden="true" tabindex="-1"></a>All projections are a compromise because they will always distort the shape, area, distances, and directions of the original GCS. A map that preserves shape is called conformal; one that preserves area is called equal-area; one that preserves distance is called equidistant; and one that preserves direction is called azimuthal. There are a huge number of projections available and choosing the correct one can be challenging. Often your choice will be to use the a local projection that is used by goverment or other authorities in the location you are working, e.g. for this workshop we will use <span class="co">[</span><span class="ot">EPSG 7856, GDA2020 / MGA zone 56</span><span class="co">](https://spatialreference.org/ref/epsg/7856/)</span>, which is suitable for our study area of south-east Queensland. For global work where equal area is important, the Mollweide projection is commonly used.</span>
+<span id="cb68-560"><a href="#cb68-560" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Projected coordinate system (projection): Unfortunately, we can&#39;t carry around globes all the time when we want to look at a map, and doing calculations, such as distance and area, in 3-D is much more difficult than 2-D. So we need a way of getting from our 3-D globe to a piece of paper (or for younger people, a screen). To do this we need to &#39;project&#39; from a GCS to a projected coordinate system, which is called projection because we can think of this as putting a light in the centre of a globe and the light shines through the globe projecting features onto a flat piece of paper. The figure below (from <span class="co">[</span><span class="ot">QGIS docs</span><span class="co">](https://docs.qgis.org/3.34/en/docs/gentle_gis_introduction/coordinate_reference_systems.html)</span>) illustrates this, showing the 3 projection families:</span>
+<span id="cb68-561"><a href="#cb68-561" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-564"><a href="#cb68-564" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-565"><a href="#cb68-565" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb68-566"><a href="#cb68-566" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;a) Cylindrical; b) conical, and; c) planar projecions&quot;</span></span>
+<span id="cb68-567"><a href="#cb68-567" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-568"><a href="#cb68-568" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">&quot;figs/projections_qgis_docs.png&quot;</span>)</span>
+<span id="cb68-569"><a href="#cb68-569" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-570"><a href="#cb68-570" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-571"><a href="#cb68-571" aria-hidden="true" tabindex="-1"></a>We have only covered the basics of coordinate reference systems because it is a big topic to cover. The following resources are useful for understanding in more depth:</span>
+<span id="cb68-571"><a href="#cb68-571" aria-hidden="true" tabindex="-1"></a>All projections are a compromise because they will always distort the shape, area, distances, and directions of the original GCS. A map that preserves shape is called conformal; one that preserves area is called equal-area; one that preserves distance is called equidistant; and one that preserves direction is called azimuthal. There are a huge number of projections available and choosing the correct one can be challenging. Often your choice will be to use the a local projection that is used by goverment or other authorities in the location you are working, e.g. for this workshop we will use <span class="co">[</span><span class="ot">EPSG 7856, GDA2020 / MGA zone 56</span><span class="co">](https://spatialreference.org/ref/epsg/7856/)</span>, which is suitable for our study area of south-east Queensland. For global work where equal area is important, the Mollweide projection is commonly used.</span>
 <span id="cb68-572"><a href="#cb68-572" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-573"><a href="#cb68-573" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The QGIS software <span class="co">[</span><span class="ot">documentation</span><span class="co">](https://docs.qgis.org/3.34/en/docs/gentle_gis_introduction/coordinate_reference_systems.html)</span></span>
-<span id="cb68-574"><a href="#cb68-574" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The Geocomputation with R <span class="co">[</span><span class="ot">book section</span><span class="co">](https://r.geocompx.org/spatial-class#crs-intro)</span></span>
-<span id="cb68-575"><a href="#cb68-575" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>R for Spatial Data Science book <span class="co">[</span><span class="ot">section</span><span class="co">](https://r-spatial.org/book/08-Plotting.html)</span></span>
-<span id="cb68-576"><a href="#cb68-576" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Stackexchange <span class="co">[</span><span class="ot">question</span><span class="co">](https://gis.stackexchange.com/questions/149749/is-wgs84-a-coordinate-system-or-projection-system)</span> about WGS84</span>
-<span id="cb68-577"><a href="#cb68-577" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-578"><a href="#cb68-578" aria-hidden="true" tabindex="-1"></a>&lt;/details&gt;</span>
+<span id="cb68-573"><a href="#cb68-573" aria-hidden="true" tabindex="-1"></a>We have only covered the basics of coordinate reference systems because it is a big topic to cover. The following resources are useful for understanding in more depth:</span>
+<span id="cb68-574"><a href="#cb68-574" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-575"><a href="#cb68-575" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The QGIS software <span class="co">[</span><span class="ot">documentation</span><span class="co">](https://docs.qgis.org/3.34/en/docs/gentle_gis_introduction/coordinate_reference_systems.html)</span></span>
+<span id="cb68-576"><a href="#cb68-576" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The Geocomputation with R <span class="co">[</span><span class="ot">book section</span><span class="co">](https://r.geocompx.org/spatial-class#crs-intro)</span></span>
+<span id="cb68-577"><a href="#cb68-577" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>R for Spatial Data Science book <span class="co">[</span><span class="ot">section</span><span class="co">](https://r-spatial.org/book/08-Plotting.html)</span></span>
+<span id="cb68-578"><a href="#cb68-578" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Stackexchange <span class="co">[</span><span class="ot">question</span><span class="co">](https://gis.stackexchange.com/questions/149749/is-wgs84-a-coordinate-system-or-projection-system)</span> about WGS84</span>
 <span id="cb68-579"><a href="#cb68-579" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-580"><a href="#cb68-580" aria-hidden="true" tabindex="-1"></a>Coming back to our Queensland data, you will remember that it is in the WGS 84 CRS, which is a geographic CRS. We want to transform it into a suitable projected CRS. We will be using GDA2020 / MGA zone 56, which is identified by the EPSG code 7843. Let&#39;s check if this is a suitable projection:</span>
+<span id="cb68-580"><a href="#cb68-580" aria-hidden="true" tabindex="-1"></a>&lt;/details&gt;</span>
 <span id="cb68-581"><a href="#cb68-581" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-584"><a href="#cb68-584" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-585"><a href="#cb68-585" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(<span class="st">&quot;EPSG:7856&quot;</span>, <span class="at">describe =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb68-586"><a href="#cb68-586" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-587"><a href="#cb68-587" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-588"><a href="#cb68-588" aria-hidden="true" tabindex="-1"></a>It says it&#39;s suitable for Australia between 150°E and 156°E. Is our data between those bounds? We can check by finding the extent of the unprojected data, which is in degrees longitude and latitude:</span>
+<span id="cb68-582"><a href="#cb68-582" aria-hidden="true" tabindex="-1"></a>Coming back to our Queensland data, you will remember that it is in the WGS 84 CRS, which is a geographic CRS. We want to transform it into a suitable projected CRS. We will be using GDA2020 / MGA zone 56, which is identified by the EPSG code 7843. Let&#39;s check if this is a suitable projection:</span>
+<span id="cb68-583"><a href="#cb68-583" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-586"><a href="#cb68-586" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-587"><a href="#cb68-587" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(<span class="st">&quot;EPSG:7856&quot;</span>, <span class="at">describe =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb68-588"><a href="#cb68-588" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-589"><a href="#cb68-589" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-592"><a href="#cb68-592" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-593"><a href="#cb68-593" aria-hidden="true" tabindex="-1"></a><span class="fu">ext</span>(climate_seq)</span>
-<span id="cb68-594"><a href="#cb68-594" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-595"><a href="#cb68-595" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-596"><a href="#cb68-596" aria-hidden="true" tabindex="-1"></a>Yep, we&#39;re good!</span>
+<span id="cb68-590"><a href="#cb68-590" aria-hidden="true" tabindex="-1"></a>It says it&#39;s suitable for Australia between 150°E and 156°E. Is our data between those bounds? We can check by finding the extent of the unprojected data, which is in degrees longitude and latitude:</span>
+<span id="cb68-591"><a href="#cb68-591" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-594"><a href="#cb68-594" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-595"><a href="#cb68-595" aria-hidden="true" tabindex="-1"></a><span class="fu">ext</span>(climate_seq)</span>
+<span id="cb68-596"><a href="#cb68-596" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-597"><a href="#cb68-597" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-598"><a href="#cb68-598" aria-hidden="true" tabindex="-1"></a>So now we can go ahead and project the data:</span>
+<span id="cb68-598"><a href="#cb68-598" aria-hidden="true" tabindex="-1"></a>Yep, we&#39;re good!</span>
 <span id="cb68-599"><a href="#cb68-599" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-602"><a href="#cb68-602" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-603"><a href="#cb68-603" aria-hidden="true" tabindex="-1"></a>climate_seq_projected <span class="ot">&lt;-</span> <span class="fu">project</span>(climate_seq, <span class="st">&quot;EPSG:7856&quot;</span>)</span>
-<span id="cb68-604"><a href="#cb68-604" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-605"><a href="#cb68-605" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate_seq_projected)</span>
-<span id="cb68-606"><a href="#cb68-606" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-607"><a href="#cb68-607" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-608"><a href="#cb68-608" aria-hidden="true" tabindex="-1"></a>The data looks the same, but our axes are no longer in degrees latitude and longitude. What are our units of measurement in our projected CRS? Normally they would be metres (unless you&#39;re in some weird American projection and you&#39;re using feet), but lets check. We need to use <span class="in">`sf`</span>&#39;s crs function for this:</span>
+<span id="cb68-600"><a href="#cb68-600" aria-hidden="true" tabindex="-1"></a>So now we can go ahead and project the data:</span>
+<span id="cb68-601"><a href="#cb68-601" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-604"><a href="#cb68-604" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-605"><a href="#cb68-605" aria-hidden="true" tabindex="-1"></a>climate_seq_projected <span class="ot">&lt;-</span> <span class="fu">project</span>(climate_seq, <span class="st">&quot;EPSG:7856&quot;</span>)</span>
+<span id="cb68-606"><a href="#cb68-606" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-607"><a href="#cb68-607" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(climate_seq_projected)</span>
+<span id="cb68-608"><a href="#cb68-608" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-609"><a href="#cb68-609" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-612"><a href="#cb68-612" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-613"><a href="#cb68-613" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(climate_seq_projected)<span class="sc">$</span>units_gdal</span>
-<span id="cb68-614"><a href="#cb68-614" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-615"><a href="#cb68-615" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-616"><a href="#cb68-616" aria-hidden="true" tabindex="-1"></a>Yep, we&#39;re in metres. Compare this to the units for the unprojected data:</span>
+<span id="cb68-610"><a href="#cb68-610" aria-hidden="true" tabindex="-1"></a>The data looks the same, but our axes are no longer in degrees latitude and longitude. What are our units of measurement in our projected CRS? Normally they would be metres (unless you&#39;re in some weird American projection and you&#39;re using feet), but lets check. We need to use <span class="in">`sf`</span>&#39;s crs function for this:</span>
+<span id="cb68-611"><a href="#cb68-611" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-614"><a href="#cb68-614" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-615"><a href="#cb68-615" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(climate_seq_projected)<span class="sc">$</span>units_gdal</span>
+<span id="cb68-616"><a href="#cb68-616" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-617"><a href="#cb68-617" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-620"><a href="#cb68-620" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-621"><a href="#cb68-621" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(climate_seq)<span class="sc">$</span>units_gdal</span>
-<span id="cb68-622"><a href="#cb68-622" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-623"><a href="#cb68-623" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-624"><a href="#cb68-624" aria-hidden="true" tabindex="-1"></a>It is really important to understand that when we project a raster, we are changing the raster, because we have to create a new raster in the new CRS. </span>
+<span id="cb68-618"><a href="#cb68-618" aria-hidden="true" tabindex="-1"></a>Yep, we&#39;re in metres. Compare this to the units for the unprojected data:</span>
+<span id="cb68-619"><a href="#cb68-619" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-622"><a href="#cb68-622" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-623"><a href="#cb68-623" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(climate_seq)<span class="sc">$</span>units_gdal</span>
+<span id="cb68-624"><a href="#cb68-624" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-625"><a href="#cb68-625" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-626"><a href="#cb68-626" aria-hidden="true" tabindex="-1"></a>Lets compare our original raster and the projected version:</span>
+<span id="cb68-626"><a href="#cb68-626" aria-hidden="true" tabindex="-1"></a>It is really important to understand that when we project a raster, we are changing the raster, because we have to create a new raster in the new CRS. </span>
 <span id="cb68-627"><a href="#cb68-627" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-630"><a href="#cb68-630" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-631"><a href="#cb68-631" aria-hidden="true" tabindex="-1"></a>climate_seq</span>
-<span id="cb68-632"><a href="#cb68-632" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-633"><a href="#cb68-633" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-636"><a href="#cb68-636" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-637"><a href="#cb68-637" aria-hidden="true" tabindex="-1"></a>climate_seq_projected</span>
-<span id="cb68-638"><a href="#cb68-638" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-639"><a href="#cb68-639" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-640"><a href="#cb68-640" aria-hidden="true" tabindex="-1"></a>The extent, resolution, and dimensions of the projected raster are all different from the unprojected one. This projected CRS has units of meters, which means the size of each raster cell is <span class="in">`r sprintf(&quot;%.2f&quot;, res(climate_seq_projected)[1])`</span>m x <span class="in">`r sprintf(&quot;%.2f&quot;, res(climate_seq_projected)[2])`</span>m. </span>
+<span id="cb68-628"><a href="#cb68-628" aria-hidden="true" tabindex="-1"></a>Lets compare our original raster and the projected version:</span>
+<span id="cb68-629"><a href="#cb68-629" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-632"><a href="#cb68-632" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-633"><a href="#cb68-633" aria-hidden="true" tabindex="-1"></a>climate_seq</span>
+<span id="cb68-634"><a href="#cb68-634" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb68-635"><a href="#cb68-635" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-638"><a href="#cb68-638" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-639"><a href="#cb68-639" aria-hidden="true" tabindex="-1"></a>climate_seq_projected</span>
+<span id="cb68-640"><a href="#cb68-640" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-641"><a href="#cb68-641" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-642"><a href="#cb68-642" aria-hidden="true" tabindex="-1"></a>Let&#39;s compare the statistics for the two rasters:</span>
+<span id="cb68-642"><a href="#cb68-642" aria-hidden="true" tabindex="-1"></a>The extent, resolution, and dimensions of the projected raster are all different from the unprojected one. This projected CRS has units of meters, which means the size of each raster cell is <span class="in">`r sprintf(&quot;%.2f&quot;, res(climate_seq_projected)[1])`</span>m x <span class="in">`r sprintf(&quot;%.2f&quot;, res(climate_seq_projected)[2])`</span>m. </span>
 <span id="cb68-643"><a href="#cb68-643" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-646"><a href="#cb68-646" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-647"><a href="#cb68-647" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(climate_seq)</span>
-<span id="cb68-648"><a href="#cb68-648" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-649"><a href="#cb68-649" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(climate_seq_projected)</span>
-<span id="cb68-650"><a href="#cb68-650" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-651"><a href="#cb68-651" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-652"><a href="#cb68-652" aria-hidden="true" tabindex="-1"></a>The statistics are similar, but not exactly the same. There are more NA values in the projected raster, largely because there are more cells: <span class="in">`r format(ncell(climate_seq), scientific = F)`</span> in the original and <span class="in">`r format(ncell(climate_seq_projected), scientific = F)`</span> in the projected raster.</span>
+<span id="cb68-644"><a href="#cb68-644" aria-hidden="true" tabindex="-1"></a>Let&#39;s compare the statistics for the two rasters:</span>
+<span id="cb68-645"><a href="#cb68-645" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-648"><a href="#cb68-648" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-649"><a href="#cb68-649" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(climate_seq)</span>
+<span id="cb68-650"><a href="#cb68-650" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-651"><a href="#cb68-651" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(climate_seq_projected)</span>
+<span id="cb68-652"><a href="#cb68-652" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-653"><a href="#cb68-653" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-654"><a href="#cb68-654" aria-hidden="true" tabindex="-1"></a>These changes in the raster are really important to think about when making decisions about projecting rasters. In general avoid projecting rasters if you can. You can find more information about the methods you can use when project in the <span class="in">`project()`</span> help file (<span class="in">`?project`</span>).</span>
+<span id="cb68-654"><a href="#cb68-654" aria-hidden="true" tabindex="-1"></a>The statistics are similar, but not exactly the same. There are more NA values in the projected raster, largely because there are more cells: <span class="in">`r format(ncell(climate_seq), scientific = F)`</span> in the original and <span class="in">`r format(ncell(climate_seq_projected), scientific = F)`</span> in the projected raster.</span>
 <span id="cb68-655"><a href="#cb68-655" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-656"><a href="#cb68-656" aria-hidden="true" tabindex="-1"></a>We can also project vector data. For this we use the <span class="in">`sf`</span> function <span class="in">`st_transform()`</span>. Let&#39;s project our SEQ boundary polygon into the local projection:</span>
+<span id="cb68-656"><a href="#cb68-656" aria-hidden="true" tabindex="-1"></a>These changes in the raster are really important to think about when making decisions about projecting rasters. In general avoid projecting rasters if you can. You can find more information about the methods you can use when project in the <span class="in">`project()`</span> help file (<span class="in">`?project`</span>).</span>
 <span id="cb68-657"><a href="#cb68-657" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-660"><a href="#cb68-660" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-661"><a href="#cb68-661" aria-hidden="true" tabindex="-1"></a>seq_boundary_projected <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(seq_boundary, <span class="dv">7856</span>)</span>
-<span id="cb68-662"><a href="#cb68-662" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-663"><a href="#cb68-663" aria-hidden="true" tabindex="-1"></a>seq_boundary_projected</span>
-<span id="cb68-664"><a href="#cb68-664" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-665"><a href="#cb68-665" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-666"><a href="#cb68-666" aria-hidden="true" tabindex="-1"></a>Note that we don&#39;t need to use the &quot;EPSG:&quot; part like we did when using <span class="in">`project()`</span>.</span>
+<span id="cb68-658"><a href="#cb68-658" aria-hidden="true" tabindex="-1"></a>We can also project vector data. For this we use the <span class="in">`sf`</span> function <span class="in">`st_transform()`</span>. Let&#39;s project our SEQ boundary polygon into the local projection:</span>
+<span id="cb68-659"><a href="#cb68-659" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-662"><a href="#cb68-662" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-663"><a href="#cb68-663" aria-hidden="true" tabindex="-1"></a>seq_boundary_projected <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(seq_boundary, <span class="dv">7856</span>)</span>
+<span id="cb68-664"><a href="#cb68-664" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-665"><a href="#cb68-665" aria-hidden="true" tabindex="-1"></a>seq_boundary_projected</span>
+<span id="cb68-666"><a href="#cb68-666" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-667"><a href="#cb68-667" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-668"><a href="#cb68-668" aria-hidden="true" tabindex="-1"></a>The nice thing about projecting vector data is that the values stay the same. So if you can, project your vector data into the CRS of your raster data.</span>
+<span id="cb68-668"><a href="#cb68-668" aria-hidden="true" tabindex="-1"></a>Note that we don&#39;t need to use the &quot;EPSG:&quot; part like we did when using <span class="in">`project()`</span>.</span>
 <span id="cb68-669"><a href="#cb68-669" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-670"><a href="#cb68-670" aria-hidden="true" tabindex="-1"></a><span class="fu">### Many raster layers</span></span>
+<span id="cb68-670"><a href="#cb68-670" aria-hidden="true" tabindex="-1"></a>The nice thing about projecting vector data is that the values stay the same. So if you can, project your vector data into the CRS of your raster data.</span>
 <span id="cb68-671"><a href="#cb68-671" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-672"><a href="#cb68-672" aria-hidden="true" tabindex="-1"></a>We&#39;ve been working with just one raster, but what if we want to do the same thing to many rasters at the same time?</span>
+<span id="cb68-672"><a href="#cb68-672" aria-hidden="true" tabindex="-1"></a><span class="fu">### Many raster layers</span></span>
 <span id="cb68-673"><a href="#cb68-673" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-674"><a href="#cb68-674" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-675"><a href="#cb68-675" aria-hidden="true" tabindex="-1"></a><span class="fu">### Saving</span></span>
+<span id="cb68-674"><a href="#cb68-674" aria-hidden="true" tabindex="-1"></a>We&#39;ve been working with just one raster, but what if we want to do the same thing to many rasters at the same time?</span>
+<span id="cb68-675"><a href="#cb68-675" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-676"><a href="#cb68-676" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-677"><a href="#cb68-677" aria-hidden="true" tabindex="-1"></a>We will need the SEQ polygon later, so lets save it using <span class="in">`st_write()`</span>:</span>
+<span id="cb68-677"><a href="#cb68-677" aria-hidden="true" tabindex="-1"></a><span class="fu">### Saving</span></span>
 <span id="cb68-678"><a href="#cb68-678" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-681"><a href="#cb68-681" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-682"><a href="#cb68-682" aria-hidden="true" tabindex="-1"></a><span class="fu">st_write</span>(seq_boundary_projected, <span class="st">&quot;data/seq_boundary.gpkg&quot;</span>, <span class="at">append =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb68-683"><a href="#cb68-683" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb68-684"><a href="#cb68-684" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-685"><a href="#cb68-685" aria-hidden="true" tabindex="-1"></a>You can save in many different formats (see <span class="in">`st_drivers()`</span>). You can change the file format just by changing the file extension, e.g. use &quot;seq_polygon.shp&quot; if you want a shapefile.</span>
+<span id="cb68-679"><a href="#cb68-679" aria-hidden="true" tabindex="-1"></a>We will need the SEQ polygon later, so lets save it using <span class="in">`st_write()`</span>:</span>
+<span id="cb68-680"><a href="#cb68-680" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-683"><a href="#cb68-683" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-684"><a href="#cb68-684" aria-hidden="true" tabindex="-1"></a><span class="fu">st_write</span>(seq_boundary_projected, <span class="st">&quot;data/seq_boundary.gpkg&quot;</span>, <span class="at">append =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb68-685"><a href="#cb68-685" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-686"><a href="#cb68-686" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-687"><a href="#cb68-687" aria-hidden="true" tabindex="-1"></a>We use the <span class="in">`append = FALSE`</span> argument to overwrite a file with the same name. This is useful if you are making changes to code and want to make sure that the most up-to-date version of your data gets saved.</span>
+<span id="cb68-687"><a href="#cb68-687" aria-hidden="true" tabindex="-1"></a>You can save in many different formats (see <span class="in">`st_drivers()`</span>). You can change the file format just by changing the file extension, e.g. use &quot;seq_polygon.shp&quot; if you want a shapefile.</span>
 <span id="cb68-688"><a href="#cb68-688" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-689"><a href="#cb68-689" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-692"><a href="#cb68-692" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-693"><a href="#cb68-693" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb68-694"><a href="#cb68-694" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-695"><a href="#cb68-695" aria-hidden="true" tabindex="-1"></a><span class="do">## CODE TO COMPARE PROJECTIONS ####</span></span>
+<span id="cb68-689"><a href="#cb68-689" aria-hidden="true" tabindex="-1"></a>We use the <span class="in">`append = FALSE`</span> argument to overwrite a file with the same name. This is useful if you are making changes to code and want to make sure that the most up-to-date version of your data gets saved.</span>
+<span id="cb68-690"><a href="#cb68-690" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-691"><a href="#cb68-691" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-694"><a href="#cb68-694" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-695"><a href="#cb68-695" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
 <span id="cb68-696"><a href="#cb68-696" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-697"><a href="#cb68-697" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb68-697"><a href="#cb68-697" aria-hidden="true" tabindex="-1"></a><span class="do">## CODE TO COMPARE PROJECTIONS ####</span></span>
 <span id="cb68-698"><a href="#cb68-698" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-699"><a href="#cb68-699" aria-hidden="true" tabindex="-1"></a>test1 <span class="ot">&lt;-</span> climate1 <span class="sc">|&gt;</span> </span>
-<span id="cb68-700"><a href="#cb68-700" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crop</span>(seq_boundary <span class="sc">|&gt;</span> <span class="fu">st_transform</span>(<span class="dv">4326</span>), <span class="at">mask =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb68-701"><a href="#cb68-701" aria-hidden="true" tabindex="-1"></a>  <span class="fu">project</span>(<span class="st">&quot;EPSG:7843&quot;</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb68-702"><a href="#cb68-702" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cellSize</span>()</span>
-<span id="cb68-703"><a href="#cb68-703" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-704"><a href="#cb68-704" aria-hidden="true" tabindex="-1"></a>test2 <span class="ot">&lt;-</span> climate1 <span class="sc">|&gt;</span> </span>
-<span id="cb68-705"><a href="#cb68-705" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crop</span>(seq_boundary <span class="sc">|&gt;</span> <span class="fu">st_transform</span>(<span class="dv">4326</span>), <span class="at">mask =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb68-706"><a href="#cb68-706" aria-hidden="true" tabindex="-1"></a>  <span class="fu">project</span>(<span class="st">&quot;EPSG:7856&quot;</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb68-707"><a href="#cb68-707" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cellSize</span>()</span>
-<span id="cb68-708"><a href="#cb68-708" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-709"><a href="#cb68-709" aria-hidden="true" tabindex="-1"></a>test1area <span class="ot">&lt;-</span> test1<span class="sc">$</span>area<span class="sc">/</span>(<span class="fu">global</span>(test1, <span class="st">&quot;max&quot;</span>)[[<span class="dv">1</span>]])</span>
-<span id="cb68-710"><a href="#cb68-710" aria-hidden="true" tabindex="-1"></a>test2area <span class="ot">&lt;-</span> test2<span class="sc">$</span>area<span class="sc">/</span>(<span class="fu">global</span>(test2, <span class="st">&quot;max&quot;</span>)[[<span class="dv">1</span>]])</span>
-<span id="cb68-711"><a href="#cb68-711" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-712"><a href="#cb68-712" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(test1area)</span>
-<span id="cb68-713"><a href="#cb68-713" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(test2area)</span>
-<span id="cb68-714"><a href="#cb68-714" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_boundary <span class="sc">|&gt;</span> <span class="fu">st_transform</span>(<span class="fu">crs</span>(test2area)) <span class="sc">|&gt;</span> <span class="fu">vect</span>())</span>
-<span id="cb68-715"><a href="#cb68-715" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-716"><a href="#cb68-716" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb68-699"><a href="#cb68-699" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb68-700"><a href="#cb68-700" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-701"><a href="#cb68-701" aria-hidden="true" tabindex="-1"></a>test1 <span class="ot">&lt;-</span> climate1 <span class="sc">|&gt;</span> </span>
+<span id="cb68-702"><a href="#cb68-702" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crop</span>(seq_boundary <span class="sc">|&gt;</span> <span class="fu">st_transform</span>(<span class="dv">4326</span>), <span class="at">mask =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb68-703"><a href="#cb68-703" aria-hidden="true" tabindex="-1"></a>  <span class="fu">project</span>(<span class="st">&quot;EPSG:7843&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb68-704"><a href="#cb68-704" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cellSize</span>()</span>
+<span id="cb68-705"><a href="#cb68-705" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-706"><a href="#cb68-706" aria-hidden="true" tabindex="-1"></a>test2 <span class="ot">&lt;-</span> climate1 <span class="sc">|&gt;</span> </span>
+<span id="cb68-707"><a href="#cb68-707" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crop</span>(seq_boundary <span class="sc">|&gt;</span> <span class="fu">st_transform</span>(<span class="dv">4326</span>), <span class="at">mask =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb68-708"><a href="#cb68-708" aria-hidden="true" tabindex="-1"></a>  <span class="fu">project</span>(<span class="st">&quot;EPSG:7856&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb68-709"><a href="#cb68-709" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cellSize</span>()</span>
+<span id="cb68-710"><a href="#cb68-710" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-711"><a href="#cb68-711" aria-hidden="true" tabindex="-1"></a>test1area <span class="ot">&lt;-</span> test1<span class="sc">$</span>area<span class="sc">/</span>(<span class="fu">global</span>(test1, <span class="st">&quot;max&quot;</span>)[[<span class="dv">1</span>]])</span>
+<span id="cb68-712"><a href="#cb68-712" aria-hidden="true" tabindex="-1"></a>test2area <span class="ot">&lt;-</span> test2<span class="sc">$</span>area<span class="sc">/</span>(<span class="fu">global</span>(test2, <span class="st">&quot;max&quot;</span>)[[<span class="dv">1</span>]])</span>
+<span id="cb68-713"><a href="#cb68-713" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-714"><a href="#cb68-714" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(test1area)</span>
+<span id="cb68-715"><a href="#cb68-715" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(test2area)</span>
+<span id="cb68-716"><a href="#cb68-716" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(seq_boundary <span class="sc">|&gt;</span> <span class="fu">st_transform</span>(<span class="fu">crs</span>(test2area)) <span class="sc">|&gt;</span> <span class="fu">vect</span>())</span>
+<span id="cb68-717"><a href="#cb68-717" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-718"><a href="#cb68-718" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
