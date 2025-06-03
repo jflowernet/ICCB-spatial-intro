@@ -44,6 +44,7 @@ We can now load the packages:
 library(dplyr)
 library(terra)
 library(sf)
+library(tmap)
 ```
 
 # Spatial data
@@ -573,11 +574,201 @@ The nice thing about projecting vector data is that the values stay the same. So
 
 We've been working with just one raster, but what if we want to do the same thing to many rasters at the same time?
 
+In the `data/Current_climate_QLD` folder, there are 19 raster files. It would be painful to have to load, crop, mask and project each file individually. A very useful feature of rasters is that they can have many layers. These layers often represent different time periods, such as days or months, or different variables, such as temperature maximum, minimum and mean.
+
+First we need to load all 19 rasters. We can do this by getting the file names and then reading those file into a list.
+
+```{r}
+bioclim_list <- list.files("data/Current_climate_QLD", full.names = TRUE) |> 
+  lapply(FUN = rast)
+```
+
+The `lapply()` applies the `rast()` function to each file name, i.e. loads each raster, and places them into a list. If you haven't encountered lists before, they can be a little confusing, but they are very helpful for holding any type of data. In our case, each element in the list is a raster. We can access each list element using the index. For example, to get the first object (in our case, raster), we do:
+
+```{r}
+bioclim_list[[1]]
+```
+
+We can find out how long our list is using `length()`:
+
+```{r}
+length(bioclim_list)
+```
+
+This is the same number of files that we read in: each raster is 1 element in the list. 
+
+We can manipulate the rasters in the list, but it is a little easier if we can just create a single raster object to work with. Happily we can create a multi-layer raster, with each of our rasters as one layer. 
+
+```{r}
+bioclim_ras <- rast(bioclim_list)
+bioclim_ras
+```
+
+We can see that we have many raster names, and the `nlyr` (number of layers) variable is now 19. 
+
+We can think of a multi-layer raster as a data sandwich (as my colleague likes to say!):
+
+```{r}
+#| code-fold: true
+#| message: false
+
+#This is to create a stack of maps 
+#The code is modified from: https://www.urbandemographics.org/post/figures-map-layers-r/
+
+#functions
+rotate_data <- function(data, y_add) {
+  x_add = 0
+  
+  shear_matrix <- function(){ matrix(c(2, 1.2, 0, 1), 2, 2) }
+  
+  rotate_matrix <- function(x){ 
+    matrix(c(cos(x), sin(x), -sin(x), cos(x)), 2, 2) 
+  }
+  data %>% 
+    dplyr::mutate(
+      geometry = .$geometry * shear_matrix() * rotate_matrix(pi/20) + c(x_add, y_add)
+    )
+}
+
+#aggregate and polygonize data
+temp_poly <- aggregate(bioclim_ras, fact = 4) |> 
+  as.polygons(aggregate = FALSE) |> 
+  st_as_sf()
+  
+#make tilted plot
+ggplot2::ggplot() +
+  ggplot2::geom_sf(data = rotate_data(temp_poly[,1], y_add = 0), ggplot2::aes(fill = .data[[names(temp_poly)[1]]]), color=NA, show.legend = FALSE) +
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::geom_sf(data = rotate_data(temp_poly[,7], y_add = 20), ggplot2::aes(fill = .data[[names(temp_poly)[7]]]), color=NA, show.legend = FALSE) +
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::geom_sf(data = rotate_data(temp_poly[,8], y_add = 40), ggplot2::aes(fill = .data[[names(temp_poly)[8]]]), color=NA, show.legend = FALSE) +
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::geom_sf(data = rotate_data(temp_poly[,5], y_add = 60), ggplot2::aes(fill = .data[[names(temp_poly)[5]]]), color=NA, show.legend = FALSE) +
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::theme_void()
+```
+
+We can use functions on our new multi-layer raster in the same way as we did for just one raster layer. We can map the rasters using the `plot()` function as normal:
+
+```{r}
+plot(bioclim_ras)
+```
+
+Not all the rasters fit in the window, so only the first 16 are show. 
+
+It's important to remember that if you want to put rasters into a multi-layer raster like we have done here, they must be the same extent, resolution, and crs.
+
+Now, we want to crop, mask and project our raster, same as we did with our single raster before. We can use exactly the same commands:
+
+```{r}
+bioclim_seq <- bioclim_ras |> 
+  crop(seq_vect, mask = TRUE) |> 
+  project(crs(climate_seq_projected))
+```
+
+Just three lines of codes and we've got our 19 rasters cropped, masked and projected! Let's check everything looks right:
+
+```{r}
+plot(bioclim_seq)
+```
 
 ## Nice maps
-Brief sections for base, tmap and ggplot?
 
-### Saving
+So far we have been using the `plot()` functions from the `terra` and `sf` packages. If you want to make detailed, publication quality maps, there are many great plotting packages such as `tmap` and `ggplot`. The final session of this workshop goes into detail about making nice maps, and there is an excellent section on map making in the [Geocomputation with R](https://r.geocompx.org/adv-map) book. For now, we will use the `tmap` package to make a nice map of our rasters with the SEQ polygon boundary.
+
+To make maps using `tmap`, you build up layers. You add data layers to the map using `tm_shape()` and that is followed by another `tm_` function that tells `tmap` what kind of data are visualizing (e.g. raster, polygons, points) and how to show it (what colours, scales, etc.). First let's plot some of the raster data. We will use just the first two rasters from our multi-layer raster:
+
+```{r}
+tm_shape(bioclim_seq[[1:2]]) +
+  tm_raster()
+```
+
+We will change colours and scales in a moment, but first let's add our SEQ boundary polygon. We use `tm_shape()` to tell it what data we want to map, and then `tm_borders()` to show it as a border, not a filled polygon.
+
+```{r}
+tm_shape(bioclim_seq[[1:2]]) +
+  tm_raster() +
+  tm_shape(seq_boundary_projected) +
+  tm_borders()
+```
+
+We can add a scale bar and north arrow with two simple functions:
+
+```{r}
+tm_shape(bioclim_seq[[1:2]]) +
+  tm_raster() +
+  tm_shape(seq_boundary_projected) +
+  tm_borders() +
+  tm_scale_bar() +
+  tm_compass()
+```
+
+Let's move the north arrow to the top left of the frame where there is some space, and set the scale bar to have marks at 0, 50 and 100 km. We will also change our raster scale colour palette:
+
+```{r}
+tm_shape(bioclim_seq[[1:2]]) +
+  tm_raster(col.scale = tm_scale_continuous(values = "brewer.yl_or_rd")) +
+  tm_shape(seq_boundary_projected) +
+  tm_borders() +
+  tm_scalebar(breaks = c(0, 50, 100)) +
+  tm_compass(position = c("left", "top"))
+```
+
+There are a HUGE variety of colour scales available. A good way to see some options is to use the `cols4all` package that is installed when you install the `tmap` package:
+
+```{r}
+#| eval: false
+
+cols4all::c4a_gui()
+```
+
+This brings up a window where you can view many colour palettes and lots of information about them, such as if the palette is colour blind friendly.
+
+We can make a few more tweaks to our maps to make them a bit neater:
+
+```{r}
+tm_shape(bioclim_seq[[1:2]]) +
+  tm_raster(col.scale = tm_scale_continuous(values = "brewer.yl_or_rd"),
+            col.legend = tm_legend(title = "Temperature", #Title for legends
+                                   orientation = "landscape")) + #change legends to landscape (horizontal) orientation
+  tm_shape(seq_boundary_projected) +
+  tm_borders() +
+  tm_scalebar(breaks = c(0, 50, 100)) +
+  tm_compass(position = c("left", "top")) +
+  tm_layout(panel.labels = c("Climate layer 1", "Climate layer 2")) #labels above each map
+```
+
+### Interactive maps
+
+It's often useful to see your data on a maps that you can move around on, with basemaps, such as satellite data, already loaded. There are two quick ways to do this. One is to use the `plet()` function from terra, which is just like `plot()`, but makes an interactive map, using the `leaflet` package behind the scenes:
+
+```{r}
+plet(bioclim_seq[[1]]) #show only the first layer of the multi-layer raster
+```
+
+We can choose a different basemap using the `tiles = ` argument:
+
+```{r}
+plet(bioclim_seq[[1]], tiles = "Esri.WorldImagery")
+```
+
+Another way of making an interactive map is using `tmap` and the `tmap_mode()` function:
+
+```{r}
+tmap_mode("view") #all tmap plots from now on will be interactive
+
+#now we copy our tmap code from above
+tm_shape(bioclim_seq[[1:2]]) +
+  tm_raster(col.scale = tm_scale_continuous(values = "brewer.yl_or_rd"),
+            col.legend = tm_legend(title = "Temperature", #Title for legends
+                                   orientation = "landscape")) + #change legends to landscape (horizontal) orientation
+  tm_shape(seq_boundary_projected) +
+  tm_borders()
+
+tmap_mode("plot") #reset the plotting to non-interactive
+```
+
+## Saving
 
 We will need the SEQ polygon later, so lets save it using `st_write()`:
 
@@ -589,30 +780,22 @@ You can save in many different formats (see `st_drivers()`). You can change the 
 
 We use the `append = FALSE` argument to overwrite a file with the same name. This is useful if you are making changes to code and want to make sure that the most up-to-date version of your data gets saved.
 
+We will also need the cropped, masked and projected climate data. We can save rasters using the `writeRaster()` function from the `terra` package:
 
 ```{r}
-#| include: false
-
-## CODE TO COMPARE PROJECTIONS ####
-
-par(mfrow = c(1,2))
-
-test1 <- climate1 |> 
-  crop(seq_boundary |> st_transform(4326), mask = TRUE) |>
-  project("EPSG:7843") |> 
-  cellSize()
-
-test2 <- climate1 |> 
-  crop(seq_boundary |> st_transform(4326), mask = TRUE) |>
-  project("EPSG:7856") |> 
-  cellSize()
-
-test1area <- test1$area/(global(test1, "max")[[1]])
-test2area <- test2$area/(global(test2, "max")[[1]])
-
-plot(test1area)
-plot(test2area)
-lines(seq_boundary |> st_transform(crs(test2area)) |> vect())
-
+writeRaster(bioclim_seq, "data/bioclim_seq.tif", overwrite = TRUE)
 ```
+
+We don't need to save each raster as a separate file, instead we save a single multi-band Geotiff. Geotiff is a widely used raster file format and can be loaded by pretty much any GIS software. 
+
+We can check that this file will load as a multi-layer raster:
+
+```{r}
+rast("data/bioclim_seq.tif")
+```
+
+## Wrapping-up
+
+We've covered the basics of vector and raster manipulation in R using the `sf` and `terra` packages, and the `tmap` package for making maps. This is a relatively short introduction to a lot of geospatial concepts, but should provide the background you need for the following sessions which focus on data retrieval, manipulation and modelling.
+
 
