@@ -676,7 +676,7 @@ plot(bioclim_seq)
 
 So far we have been using the `plot()` functions from the `terra` and `sf` packages. If you want to make detailed, publication quality maps, there are many great plotting packages such as `tmap` and `ggplot`. The final session of this workshop goes into detail about making nice maps, and there is an excellent section on map making in the [Geocomputation with R](https://r.geocompx.org/adv-map) book. For now, we will use the `tmap` package to make a nice map of our rasters with the SEQ polygon boundary.
 
-To make maps using `tmap`, you build up layers. You add data layers to the map using `tm_shape()` and that is followed by another `tm_` function that tells `tmap` what kind of data are visualizing (e.g. raster, polygons, points) and how to show it (what colours, scales, etc.). First let's plot some of the raster data. We will use just the first two rasters from our multi-layer raster:
+To make maps using `tmap`, you build up layers. You add data layers to the map using `tm_shape()` and that is followed by another `tm_` function that tells `tmap` what kind of data you are visualizing (e.g. raster, polygons, points) and how to show it (what colours, scales, etc.). First let's plot some of the raster data. We will use just the first two rasters from our multi-layer raster:
 
 ```{r}
 tm_shape(bioclim_seq[[1:2]]) +
@@ -699,7 +699,7 @@ tm_shape(bioclim_seq[[1:2]]) +
   tm_raster() +
   tm_shape(seq_boundary_projected) +
   tm_borders() +
-  tm_scale_bar() +
+  tm_scalebar() +
   tm_compass()
 ```
 
